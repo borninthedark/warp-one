@@ -1,0 +1,33 @@
+# Ignore local Terraform state files
+*.tfstate
+*.tfstate.*
+*.tfvars          # Terraform variable files with secrets (if you store them locally)
+*.tfplan
+.crc
+
+# Ignore Terraform working directory
+.terraform/
+
+# Do NOT ignore .terraform.lock.hcl – committing it ensures consistent provider versions
+
+# Ignore local override files (optional)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore editor/IDE settings
+.vscode/
+.idea/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore any certificates or secrets you store locally
+certs/
+secrets/
+*.pem
+*.pfx
+*.key
+
