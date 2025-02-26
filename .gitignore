@@ -30,3 +30,23 @@ secrets/
 *.pem
 *.pfx
 *.key
+
+# Python virtual environment directories
+venv/
+env/
+.venv/
+__pycache__/
+
+# pip cache
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Python distribution artifacts
+*.egg-info/
+dist/
+build/
+*.tar.gz
+*.whl
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/

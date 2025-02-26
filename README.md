@@ -1,1 +1,1 @@
-Generic DevSecGitOps Pipeline Model
+# Generic DevSecGitOps Pipeline Model
