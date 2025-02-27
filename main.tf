@@ -105,10 +105,6 @@ module "cert_manager" {
   source    = "./modules/cert-manager"
   name      = "cert-manager"
   namespace = "cert-manager"
-
-  kube_config_host  = module.aks.aks_kube_config.host
-  kube_config_ca    = module.aks.aks_kube_config.cluster_ca_certificate
-  kube_config_token = module.aks.aks_kube_config.token
 }
 
 # ✅ ArgoCD
