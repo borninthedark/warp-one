@@ -16,12 +16,3 @@ variable "dns_zone_name" {
   default     = "warp-one.com" # Replace with your desired DNS zone name
 }
 
-variable "subnet_id" {
-  description = "The subnet ID where the Application Gateway will be deployed."
-  type        = string
-}
-
-variable "log_analytics_workspace_id" {
-  description = "The Log Analytics workspace ID for monitoring."
-  type        = string
-}
