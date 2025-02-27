@@ -1,15 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
-# Fetch Azure Client Config
-data "azurerm_client_config" "current" {}
-
-locals {
-  environment = terraform.workspace
-  location    = var.location
-}
-
 # ✅ Resource Group
 module "resource_group" {
   source   = "./modules/resource_group"
