@@ -9,7 +9,7 @@ variable "repo_url" {
   default     = "https://charts.jetstack.io"
 }
 
-variable "version" {
+variable "cm_version" {
   description = "The version of the Cert-Manager chart."
   type        = string
   default     = "v1.5.4"

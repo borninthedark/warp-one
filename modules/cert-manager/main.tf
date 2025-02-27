@@ -2,7 +2,7 @@ resource "helm_release" "cert_manager" {
   name       = var.name
   repository = var.repo_url
   chart      = "cert-manager"
-  version    = var.version
+  version    = var.cm_version
 
   namespace        = var.namespace
   create_namespace = true
