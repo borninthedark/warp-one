@@ -15,9 +15,22 @@ module "keyvault" {
 
 # DNS Zone
 module "dns" {
-  source         = "./modules/dns"
-  dns_zone_name  = var.dns_zone_name
-  resource_group = module.resource_group.name
+  source              = "./modules/dns"
+  dns_zone_name       = "princetonstrong.online"
+  resource_group_name = module.resource_group.name
+  a_records = [
+    {
+      name       = "www"
+      ip_address = "192.0.2.1"  # Example IP address
+    }
+  ]
+  cname_records = [
+    {
+      name   = "blog"
+      target = "blog.princetonstrong.online"
+    }
+  ]
+  ttl = 3600  # 1 hour TTL
 }
 
 # Public IP for Application Gateway (If you plan to use AGIC)
@@ -81,9 +94,16 @@ module "aks" {
 
 # Argo CD Deployment
 module "argocd" {
-  source       = "./modules/argocd"
-  repo_url     = "https://argoproj.github.io/argo-helm"
-  namespace    = "argocd"
-  cluster_name = module.aks.name
+  source          = "./modules/argocd"
+  name            = "argocd"
+  namespace       = "argocd"
+  argocd_url      = "argocd.princetonstrong.online"
+  argocd_tls_secret = "argocd-tls-secret"
 }
 
+# Cert-Manager
+module "cert_manager" {
+  source          = "./modules/cert-manager"
+  name            = "cert-manager"
+  namespace       = "cert-manager"
+}

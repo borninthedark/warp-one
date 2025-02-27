@@ -59,3 +59,23 @@ output "public_ip_address" {
 output "application_gateway_id" {
   value = module.application_gateway.app_gateway_id
 }
+
+### DNS ###
+output "dns_zone_id" {
+  value = module.dns.dns_zone_id
+}
+
+output "dns_zone_name" {
+  value = module.dns.dns_zone_name
+}
+
+### CERT-MANAGER ###
+output "cert_manager_version" {
+  value = module.cert_manager.cert_manager_version
+}
+
+### ARGOCD ###
+output "argocd_url" {
+  value = module.argocd.argocd_url
+}
+
