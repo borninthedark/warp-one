@@ -1,6 +1,7 @@
+# Define locals for environment and location
 locals {
-  environment = terraform.workspace  # Uses workspace name (dev, staging, prod)
-  location    = var.location         # Location variable
+  environment = terraform.workspace
+  location    = var.location
 }
 
 variable "location" {

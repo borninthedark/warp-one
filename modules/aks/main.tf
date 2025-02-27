@@ -6,10 +6,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
   kubernetes_version  = var.kubernetes_version
 
   default_node_pool {
-    name       = "default"
+    name       = var.node_pool_name
     node_count = var.node_count
     vm_size    = var.vm_size
-    os_type    = "Linux"
+    os_type    = var.os_type
   }
 
   identity {
@@ -25,9 +25,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
       enabled = var.azure_policy_enabled
     }
 
-    monitoring {
-      enabled = true
+    oms_agent {
+      enabled = var.oms_agent_enabled
       log_analytics_workspace_id = var.log_analytics_workspace_id
+    }
+
+    ingress_application_gateway {
+      enabled = true
+      gateway_id = var.app_gateway_id  # You must specify your Application Gateway ID here
     }
   }
 

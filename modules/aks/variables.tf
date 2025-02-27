@@ -63,3 +63,8 @@ variable "acr_id" {
   description = "The ID of the Azure Container Registry to allow AKS to pull images from."
   type        = string
 }
+
+variable "app_gateway_id" {
+  description = "The ID of the Application Gateway to be used with AGIC."
+  type        = string
+}
