@@ -1,37 +1,44 @@
-// main.tf for the aks module
-// Define resources specific to aks here
-
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.name
   location            = var.location
-  resource_group_name = var.resource_group
+  resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
-  kubernetes_version  = "1.25.6"
+  kubernetes_version  = var.kubernetes_version
 
   default_node_pool {
-    name       = "primary"
-    node_count = 2
-    vm_size    = "Standard_DS2_v2"
+    name       = "default"
+    node_count = var.node_count
+    vm_size    = var.vm_size
+    os_type    = "Linux"
   }
 
   identity {
     type = "SystemAssigned"
   }
 
-  addon_profile {
-    ingress_application_gateway {
-      enabled = true
-    }
-    azure_policy {
-      enabled = true
-    }
-  }
-
   role_based_access_control {
-    enabled = true
+    enabled = var.rbac_enabled
   }
+
+  addon_profile {
+    azure_policy {
+      enabled = var.azure_policy_enabled
+    }
+
+    monitoring {
+      enabled = true
+      log_analytics_workspace_id = var.log_analytics_workspace_id
+    }
+  }
+
+  tags = var.tags
 }
 
-output "name" {
-  value = azurerm_kubernetes_cluster.aks.name
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  scope                = var.acr_id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+  depends_on           = [azurerm_kubernetes_cluster.aks]
 }
+
+
