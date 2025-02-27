@@ -73,10 +73,10 @@ module "application_gateway" {
 
 # Azure Container Registry (ACR)
 module "acr" {
-  source         = "./modules/acr"
-  name           = "acr-warp-one-${local.environment}"
-  resource_group = module.resource_group.name
-  location       = module.resource_group.location
+  source              = "./modules/acr"
+  name                = "acr-warp-one-${local.environment}"
+  location            = module.resource_group.resource_group_location
+  resource_group_name = module.resource_group.resource_group_name  
 }
 
 # AKS Cluster
