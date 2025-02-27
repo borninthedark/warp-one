@@ -15,28 +15,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  role_based_access_control {
-    enabled = var.rbac_enabled
-  }
-
-  addon_profile {
-    azure_policy {
-      enabled = var.azure_policy_enabled
-    }
-
-    oms_agent {
-      enabled = true
-      log_analytics_workspace_id = var.log_analytics_workspace_id
-    }
-
-    ingress_application_gateway {
-      enabled    = true
-      gateway_id = var.app_gateway_id
-    }
-  }
+  role_based_access_control_enabled = var.rbac_enabled
+  azure_policy_enabled              = var.azure_policy_enabled
 
   tags = var.tags
 }
+
 
 # Grant AKS permission to pull from ACR
 resource "azurerm_role_assignment" "aks_acr_pull" {

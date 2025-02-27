@@ -1,9 +1,9 @@
 terraform {
   backend "remote" {
-    organization = "Defiant-Emissary"  
+    organization = "Defiant-Emissary"
 
     workspaces {
-      name = "warp-one"  
+      name = "warp-one"
     }
   }
 }
