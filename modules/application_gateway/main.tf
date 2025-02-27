@@ -14,7 +14,7 @@ resource "azurerm_application_gateway" "appgw" {
 
   gateway_ip_configuration {
     name      = "appgw-ip-config"
-    subnet_id = var.subnet_id
+    subnet_id = module.network.appgw_subnet_id
   }
 
   tags = var.tags
