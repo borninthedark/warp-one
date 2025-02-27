@@ -7,10 +7,20 @@ module "resource_group" {
 
 # Key Vault
 module "keyvault" {
-  source         = "./modules/keyvault"
-  name           = "kv-warp-one-${local.environment}"
-  resource_group = module.resource_group.name
-  location       = module.resource_group.location
+  source              = "./modules/keyvault"
+  name                = "kv-warp-one-${local.environment}"
+  resource_group_name = module.resource_group.resource_group_name  
+  location            = module.resource_group.resource_group_location
+  sku_name            = "standard"
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  object_id           = data.azurerm_client_config.current.object_id
+  secret_permissions  = ["get", "list", "set", "delete"]
+  key_permissions     = ["get", "list", "create"]
+  certificate_permissions = ["get", "list"]
+  tags = {
+    environment = local.environment
+    project     = "warp-one"
+  }
 }
 
 # DNS Zone
