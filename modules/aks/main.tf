@@ -6,10 +6,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   kubernetes_version  = var.kubernetes_version
 
   default_node_pool {
-    name       = var.node_pool_name
+    name       = "default"
     node_count = var.node_count
     vm_size    = var.vm_size
-    os_type    = var.os_type
   }
 
   identity {
@@ -26,19 +25,20 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
 
     oms_agent {
-      enabled = var.oms_agent_enabled
+      enabled = true
       log_analytics_workspace_id = var.log_analytics_workspace_id
     }
 
     ingress_application_gateway {
-      enabled = true
-      gateway_id = var.app_gateway_id  # You must specify your Application Gateway ID here
+      enabled    = true
+      gateway_id = var.app_gateway_id
     }
   }
 
   tags = var.tags
 }
 
+# Grant AKS permission to pull from ACR
 resource "azurerm_role_assignment" "aks_acr_pull" {
   scope                = var.acr_id
   role_definition_name = "AcrPull"

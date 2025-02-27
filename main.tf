@@ -83,19 +83,17 @@ module "acr" {
 module "aks" {
   source              = "./modules/aks"
   name                = "aks-warp-one-${local.environment}"
-  location            = module.resource_group.location
-  resource_group_name = module.resource_group.name
+  location            = module.resource_group.resource_group_location
+  resource_group_name = module.resource_group.resource_group_name
   dns_prefix          = "akswarpone"
   kubernetes_version  = "1.22.0"
-  node_pool_name      = "default"
-  node_count          = 3
+  node_count          = 2
   vm_size             = "Standard_DS2_v2"
-  os_type             = "Linux"
   rbac_enabled        = true
   azure_policy_enabled = false
-  oms_agent_enabled   = true
   log_analytics_workspace_id = var.log_analytics_workspace_id
-  app_gateway_id      = module.application_gateway.app_gateway_id  # Link AGIC with the Application Gateway
+  app_gateway_id      = module.application_gateway.app_gateway_id
+  acr_id              = module.acr.acr_id  
   tags = {
     environment = local.environment
     project     = "warp-one"
