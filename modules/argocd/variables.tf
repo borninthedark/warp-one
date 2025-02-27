@@ -9,7 +9,7 @@ variable "repo_url" {
   default     = "https://argoproj.github.io/argo-helm"
 }
 
-variable "version" {
+variable "argo_version" {
   description = "The version of the ArgoCD chart."
   type        = string
   default     = "5.23.1"
