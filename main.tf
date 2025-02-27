@@ -7,18 +7,18 @@ module "resource_group" {
 
 # ✅ Networking
 module "network" {
-  source                    = "./modules/network"
-  resource_group_name       = module.resource_group.resource_group_name
-  location                  = module.resource_group.resource_group_location
-  vnet_name                 = "vnet-warp-one-${local.environment}"
-  vnet_address_space        = ["10.0.0.0/16"]
-  aks_subnet_name           = "aks-subnet"
-  aks_subnet_address_prefixes = ["10.0.1.0/24"]
-  appgw_subnet_name         = "appgw-subnet"
+  source                        = "./modules/network"
+  resource_group_name           = module.resource_group.resource_group_name
+  location                      = module.resource_group.resource_group_location
+  vnet_name                     = "vnet-warp-one-${local.environment}"
+  vnet_address_space            = ["10.0.0.0/16"]
+  aks_subnet_name               = "aks-subnet"
+  aks_subnet_address_prefixes   = ["10.0.1.0/24"]
+  appgw_subnet_name             = "appgw-subnet"
   appgw_subnet_address_prefixes = ["10.0.2.0/24"]
-  nsg_name                  = "nsg-warp-one-${local.environment}"
-  appgw_public_ip_name      = "appgw-public-ip-${local.environment}"
-  tags                      = {
+  nsg_name                      = "nsg-warp-one-${local.environment}"
+  appgw_public_ip_name          = "appgw-public-ip-${local.environment}"
+  tags = {
     environment = local.environment
     project     = "warp-one"
   }
@@ -44,12 +44,12 @@ module "dns" {
 
 # ✅ Log Analytics Workspace
 module "log_analytics" {
-  source              = "./modules/log_analytics"
-  name                = "log-warp-one-${local.environment}"
-  location            = module.resource_group.resource_group_location
-  resource_group_name = module.resource_group.resource_group_name
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
+  source                = "./modules/log_analytics"
+  name                  = "log-warp-one-${local.environment}"
+  location              = module.resource_group.resource_group_location
+  resource_group_name   = module.resource_group.resource_group_name
+  sku                   = "PerGB2018"
+  retention_in_days     = 30
   enable_aks_monitoring = true
   tags = {
     environment = local.environment
@@ -102,8 +102,8 @@ module "aks" {
 
 # ✅ Cert Manager
 module "cert_manager" {
-  source = "./modules/cert-manager"
-  name   = "cert-manager"
+  source    = "./modules/cert-manager"
+  name      = "cert-manager"
   namespace = "cert-manager"
 
   kube_config_host  = module.aks.aks_kube_config.host
@@ -116,10 +116,10 @@ module "argocd" {
   source    = "./modules/argocd"
   name      = "argocd"
   namespace = "argocd"
-
-  kube_config_host  = module.aks.aks_kube_config.host
-  kube_config_ca    = module.aks.aks_kube_config.cluster_ca_certificate
-  kube_config_token = module.aks.aks_kube_config.token
+  
+  argocd_url        = "argocd.princetonstrong.online"
+  argocd_tls_secret = "argocd-tls-secret"
 }
+
 
 
