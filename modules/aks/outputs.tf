@@ -8,9 +8,9 @@ output "aks_cluster_id" {
   value       = azurerm_kubernetes_cluster.aks.id
 }
 
-output "aks_kube_config" {
-  description = "The kubeconfig for connecting to the AKS cluster."
-  value       = azurerm_kubernetes_cluster.aks.kube_config_raw  # ✅ Fix: Correct attribute
+output "kube_config_raw" {
+  description = "The raw kubeconfig for connecting to the AKS cluster."
+  value       = azurerm_kubernetes_cluster.aks.kube_config_raw
   sensitive   = true
 }
 
