@@ -92,7 +92,7 @@ module "aks" {
   resource_group_name        = module.resource_group.resource_group_name
   dns_prefix                 = "akswarpone"
   kubernetes_version         = "1.22.0"
-  node_count                 = 3
+  node_count                 = 2
   vm_size                    = "Standard_DS2_v2"
   rbac_enabled               = true
   azure_policy_enabled       = false
