@@ -1,8 +1,11 @@
 variable "name" {
   description = "The name of the Azure Container Registry."
   type        = string
+  validation {
+    condition     = can(regex("^[a-z0-9]{5,50}$", var.name))
+    error_message = "ACR name must be 5-50 characters long and contain only lowercase letters and numbers."
+  }
 }
-
 variable "location" {
   description = "The Azure region where the ACR will be deployed."
   type        = string

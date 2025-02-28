@@ -30,21 +30,15 @@ variable "object_id" {
 }
 
 variable "secret_permissions" {
-  description = "List of permissions for secrets in the Key Vault."
-  type        = list(string)
-  default     = ["get", "list", "set"]
+  default = ["Get", "List", "Set", "Delete"]
 }
 
 variable "key_permissions" {
-  description = "List of permissions for keys in the Key Vault."
-  type        = list(string)
-  default     = ["get", "list", "create", "import"]
+  default = ["Get", "List", "Create", "Import"]
 }
 
 variable "certificate_permissions" {
-  description = "List of permissions for certificates in the Key Vault."
-  type        = list(string)
-  default     = ["get", "list"]
+  default = ["Get", "List"]
 }
 
 variable "tags" {

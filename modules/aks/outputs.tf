@@ -20,3 +20,8 @@ output "kube_config_ca" {
   value       = azurerm_kubernetes_cluster.aks.kube_config.0.cluster_ca_certificate
   sensitive   = true
 }
+
+output "aks_name" {
+  description = "The name of the AKS cluster."
+  value       = azurerm_kubernetes_cluster.aks.name
+}
