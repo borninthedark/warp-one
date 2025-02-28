@@ -79,7 +79,7 @@ module "application_gateway" {
 # ✅ Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
-  name                = "acr-warp-one-${local.environment}"
+  name                = "bozeman"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
 }
