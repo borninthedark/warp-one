@@ -1,11 +1,11 @@
-# ✅ Resource Group
+# Resource Group
 module "resource_group" {
   source   = "./modules/resource_group"
   name     = "rg-warp-one-${local.environment}"
   location = local.location
 }
 
-# ✅ Networking
+# Networking
 module "network" {
   source                        = "./modules/network"
   resource_group_name           = module.resource_group.resource_group_name
@@ -24,7 +24,7 @@ module "network" {
   }
 }
 
-# ✅ Key Vault
+# Key Vault
 module "keyvault" {
   source              = "./modules/keyvault"
   name                = "kv-warp-one-${local.environment}"
@@ -35,14 +35,14 @@ module "keyvault" {
   object_id           = data.azurerm_client_config.current.object_id
 }
 
-# ✅ DNS Zone
+# DNS Zone
 module "dns" {
   source              = "./modules/dns"
   dns_zone_name       = "princetonstrong.online"
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# ✅ Log Analytics Workspace
+# Log Analytics Workspace
 module "log_analytics" {
   source                = "./modules/log_analytics"
   name                  = "log-warp-one-${local.environment}"
@@ -57,7 +57,7 @@ module "log_analytics" {
   }
 }
 
-# ✅ Public IP for Application Gateway
+# Public IP for Application Gateway
 module "public_ip" {
   source              = "./modules/public_ip"
   name                = "appgw-public-ip-${local.environment}"
@@ -65,7 +65,7 @@ module "public_ip" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# ✅ Application Gateway
+# Application Gateway
 module "application_gateway" {
   source               = "./modules/application_gateway"
   name                 = "appgw-warp-one-${local.environment}"
@@ -76,7 +76,7 @@ module "application_gateway" {
 }
 
 
-# ✅ Azure Container Registry (ACR)
+# Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
   name                = "bozeman"
@@ -84,7 +84,7 @@ module "acr" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# ✅ AKS Cluster
+# AKS Cluster
 module "aks" {
   source                     = "./modules/aks"
   name                       = "aks-warp-one-${local.environment}"
@@ -101,14 +101,14 @@ module "aks" {
   acr_id                     = module.acr.acr_id
 }
 
-# ✅ Cert Manager
+# Cert Manager
 module "cert_manager" {
   source    = "./modules/cert-manager"
   name      = "cert-manager"
   namespace = "cert-manager"
 }
 
-# ✅ ArgoCD
+# ArgoCD
 module "argocd" {
   source    = "./modules/argocd"
   name      = "argocd"
