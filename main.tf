@@ -91,7 +91,7 @@ module "aks" {
   location                   = module.resource_group.resource_group_location
   resource_group_name        = module.resource_group.resource_group_name
   dns_prefix                 = "akswarpone"
-  kubernetes_version         = "1.22.0"
+  kubernetes_version         = "1.30.7"
   node_count                 = 2
   vm_size                    = "Standard_DS2_v2"
   rbac_enabled               = true
