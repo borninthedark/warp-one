@@ -13,14 +13,13 @@ resource "azurerm_application_gateway" "appgw" {
     max_capacity = 10
   }
 
-
   gateway_ip_configuration {
     name      = "appgw-ip-config"
     subnet_id = var.subnet_id
   }
 
   frontend_ip_configuration {
-    name                 = "appgw-frontend-ip"
+    name                 = "frontend-ip"
     public_ip_address_id = var.public_ip_address_id
   }
 
@@ -49,14 +48,14 @@ resource "azurerm_application_gateway" "appgw" {
 
   http_listener {
     name                           = "http-listener"
-    frontend_ip_configuration_name = "appgw-frontend-ip"
+    frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "http-port"
     protocol                       = "Http"
   }
 
   http_listener {
     name                           = "https-listener"
-    frontend_ip_configuration_name = "appgw-frontend-ip"
+    frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "https-port"
     protocol                       = "Https"
     ssl_certificate_name           = var.ssl_certificate_name
@@ -71,6 +70,14 @@ resource "azurerm_application_gateway" "appgw" {
     priority                   = 1
   }
 
+  request_routing_rule {
+    name                       = "https-routing-rule"
+    rule_type                  = "Basic"
+    http_listener_name         = "https-listener"
+    backend_address_pool_name  = "default-backend-pool"
+    backend_http_settings_name = "http-settings"
+    priority                   = 2
+  }
+
   tags = var.tags
 }
-
