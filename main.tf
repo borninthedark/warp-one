@@ -75,6 +75,7 @@ module "application_gateway" {
   subnet_id            = module.network.appgw_subnet_id
 }
 
+
 # ✅ Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
@@ -112,7 +113,7 @@ module "argocd" {
   source    = "./modules/argocd"
   name      = "argocd"
   namespace = "argocd"
-  
+
   argocd_url        = "argocd.princetonstrong.online"
   argocd_tls_secret = "argocd-tls-secret"
 }
