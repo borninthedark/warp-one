@@ -30,7 +30,8 @@ module "keyvault" {
   name                = "kv-warp-one-${local.environment}"
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
-  sp_object_id        = data.azuread_service_principal.terraform_sp.object_id
+  object_id           = data.azurerm_client_config.current.object_id  
+  tenant_id           = data.azurerm_client_config.current.tenant_id 
 }
 
 # SSL Cert Creation
