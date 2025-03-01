@@ -35,3 +35,23 @@ variable "repo_image_tag" {
   type        = string
   default     = "v2.3.3"
 }
+
+variable "kube_config_host" {
+  description = "The Kubernetes API server endpoint."
+  type        = string
+}
+
+variable "kube_config_client_certificate" {
+  description = "The client certificate for authenticating to the AKS cluster."
+  type        = string
+}
+
+variable "kube_config_client_key" {
+  description = "The client key for authenticating to the AKS cluster."
+  type        = string
+}
+
+variable "kube_config_ca" {
+  description = "The Kubernetes cluster CA certificate."
+  type        = string
+}

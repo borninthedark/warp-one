@@ -78,14 +78,14 @@ module "public_ip" {
 
 # Application Gateway
 module "application_gateway" {
-  source               = "./modules/application_gateway"
-  name                 = "appgw-warp-one-${local.environment}"
-  location             = module.resource_group.resource_group_location
-  resource_group_name  = module.resource_group.resource_group_name
-  public_ip_address_id = module.public_ip.public_ip_id
-  subnet_id            = module.network.appgw_subnet_id
-  ssl_certificate_name       = module.certificates.ssl_certificate_name
-  ssl_certificate_secret_id  = module.certificates.certificate_secret_id 
+  source                    = "./modules/application_gateway"
+  name                      = "appgw-warp-one-${local.environment}"
+  location                  = module.resource_group.resource_group_location
+  resource_group_name       = module.resource_group.resource_group_name
+  public_ip_address_id      = module.public_ip.public_ip_id
+  subnet_id                 = module.network.appgw_subnet_id
+  ssl_certificate_name      = module.certificates.ssl_certificate_name
+  ssl_certificate_secret_id = module.certificates.certificate_secret_id
 }
 
 # Azure Container Registry (ACR)
@@ -110,24 +110,34 @@ module "aks" {
   azure_policy_enabled       = false
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
   acr_id                     = module.acr.acr_id
-  depends_on = [module.application_gateway] 
+
+  depends_on = [module.application_gateway]
 }
 
-# Cert Manager
-module "cert_manager" {
-  source    = "./modules/cert-manager"
-  name      = "cert-manager"
-  namespace = "cert-manager"
-}
-
-# ArgoCD
 module "argocd" {
   source    = "./modules/argocd"
   name      = "argocd"
   namespace = "argocd"
 
-  argocd_url        = "argocd.princetonstrong.online"
-  argocd_tls_secret = "argocd-tls-secret"
+  kube_config_host               = module.aks.kube_config_host
+  kube_config_client_certificate = module.aks.kube_config_client_certificate
+  kube_config_client_key         = module.aks.kube_config_client_key
+  kube_config_ca                 = module.aks.kube_config_ca
+
+  depends_on = [module.aks]
+}
+
+module "cert_manager" {
+  source    = "./modules/cert-manager"
+  name      = "cert-manager"
+  namespace = "cert-manager"
+
+  kube_config_host               = module.aks.kube_config_host
+  kube_config_client_certificate = module.aks.kube_config_client_certificate
+  kube_config_client_key         = module.aks.kube_config_client_key
+  kube_config_ca                 = module.aks.kube_config_ca
+
+  depends_on = [module.aks]
 }
 
 

@@ -5,5 +5,5 @@ output "certificate_secret_id" {
 
 output "ssl_certificate_name" {
   description = "The name of the SSL certificate stored in Key Vault."
-  value       = azurerm_key_vault_certificate.ssl_cert.name  # ✅ Correct output
+  value       = azurerm_key_vault_certificate.ssl_cert.name # ✅ Correct output
 }

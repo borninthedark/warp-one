@@ -1,22 +1,20 @@
 resource "helm_release" "argocd" {
-  name       = var.name
-  repository = var.repo_url
-  chart      = "argo-cd"
-  version    = var.argo_version
-
-  namespace          = var.namespace
-  create_namespace   = true
-  wait               = true
-  timeout            = 600
+  name             = "argocd"
+  namespace        = var.namespace
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  create_namespace = true
+  wait             = true
+  timeout          = 600
 
   set {
     name  = "server.service.type"
-    value = "LoadBalancer"  # Expose the ArgoCD server using a LoadBalancer service
+    value = "LoadBalancer" # Expose the ArgoCD server using a LoadBalancer service
   }
 
   set {
     name  = "server.ingress.enabled"
-    value = "true"  # Enable ingress for ArgoCD
+    value = "true" # Enable ingress for ArgoCD
   }
 
   set {
@@ -38,5 +36,6 @@ resource "helm_release" "argocd" {
     name  = "repoServer.image.tag"
     value = var.repo_image_tag
   }
-}
 
+  depends_on = [var.kube_config_host]
+}
