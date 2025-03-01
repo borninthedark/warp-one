@@ -21,7 +21,7 @@ variable "dns_prefix" {
 variable "kubernetes_version" {
   description = "The version of Kubernetes to use in the AKS cluster."
   type        = string
-  default     = "1.21.5"  # Change as needed
+  default     = "1.21.5" # Change as needed
 }
 
 variable "node_count" {
@@ -64,7 +64,3 @@ variable "acr_id" {
   type        = string
 }
 
-variable "app_gateway_id" {
-  description = "The ID of the Application Gateway to be used with AGIC."
-  type        = string
-}

@@ -41,12 +41,12 @@ resource "azurerm_application_gateway" "appgw" {
     request_timeout       = 20
   }
 
- http_listener {
+  http_listener {
     name                           = "https-listener"
     frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "https-port"
     protocol                       = "Https"
-    ssl_certificate_name           = var.ssl_certificate_name 
+    ssl_certificate_name           = var.ssl_certificate_name
   }
 
   request_routing_rule {
@@ -58,5 +58,5 @@ resource "azurerm_application_gateway" "appgw" {
     priority                   = 1
   }
 
-  tags = var.tags
+  depends_on = [var.ssl_certificate_secret_id] # ✅ Ensures SSL certificate is created first
 }

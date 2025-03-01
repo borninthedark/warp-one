@@ -4,7 +4,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
   kubernetes_version  = var.kubernetes_version
-
   default_node_pool {
     name       = "default"
     node_count = var.node_count
@@ -19,7 +18,16 @@ resource "azurerm_kubernetes_cluster" "aks" {
   azure_policy_enabled              = var.azure_policy_enabled
 
   tags = var.tags
+
+  network_profile {
+    network_plugin = "azure"
+    network_policy = "calico"
+    outbound_type  = "loadBalancer"
+  }
+
+  depends_on = [azurerm_application_gateway.appgw] # ✅ Ensure correct dependency
 }
+
 
 
 # Grant AKS permission to pull from ACR

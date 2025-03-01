@@ -4,7 +4,7 @@ resource "azurerm_key_vault_certificate" "ssl_cert" {
 
   certificate_policy {
     issuer_parameters {
-      name = "Self"  # Change to "DigiCert" if using an external CA
+      name = "Self"
     }
 
     key_properties {
@@ -33,5 +33,28 @@ resource "azurerm_key_vault_certificate" "ssl_cert" {
       validity_in_months  = var.validity_in_months
     }
   }
+
+  depends_on = [var.key_vault_id] 
 }
 
+# Assign permissions to AKS and Application Gateway
+resource "azurerm_role_assignment" "aks_cert_reader" {
+  scope                = var.key_vault_id
+  role_definition_name = "Reader"
+  principal_id         = var.aks_managed_identity_id
+
+  depends_on = [azurerm_key_vault_certificate.ssl_cert] 
+}
+
+resource "azurerm_role_assignment" "appgw_cert_reader" {
+  scope                = var.key_vault_id
+  role_definition_name = "Reader"
+  principal_id         = var.appgw_managed_identity_id
+
+  depends_on = [azurerm_key_vault_certificate.ssl_cert] 
+}
+
+output "certificate_secret_id" {
+  description = "The Secret ID of the SSL Certificate in Key Vault."
+  value       = azurerm_key_vault_certificate.ssl_cert.secret_id
+}
