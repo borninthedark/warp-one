@@ -8,6 +8,6 @@ provider "kubernetes" {
   token                  = module.aks.kube_config[0].token
 }
 
-
+provider "helm" {}
 
 
