@@ -10,7 +10,7 @@ on:
 
 jobs:
   terraform:
-    name: "Terraform CI/CD with Terraform Cloud"
+    name: "Terraform CI/CD with TFC"
     runs-on: ubuntu-latest
     env:
       TF_CLOUD_ORG: ${{ secrets.TF_CLOUD_ORG }}  
@@ -25,24 +25,6 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
-      - name: "Create Terraform Cloud Workspace if not exists"
-        run: |
-          curl \
-          --header "Authorization: Bearer $TF_API_TOKEN" \
-          --header "Content-Type: application/vnd.api+json" \
-          --request POST \
-          --data '{
-            "data": {
-              "attributes": {
-                "name": "'$TF_WORKSPACE'",
-                "organization": "'$TF_CLOUD_ORG'",
-                "execution-mode": "remote"
-              },
-              "type": "workspaces"
-            }
-          }' \
-          https://app.terraform.io/api/v2/organizations/$TF_CLOUD_ORG/workspaces || true
 
       - name: "Initialize Terraform"
         run: terraform init
