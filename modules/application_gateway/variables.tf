@@ -23,6 +23,12 @@ variable "public_ip_address_id" {
   type        = string
 }
 
+variable "ssl_certificate_name" {
+  description = "The name of the SSL certificate to use for HTTPS."
+  type        = string
+  default     = "appgw-ssl-cert"
+}
+
 variable "tags" {
   description = "A map of tags to apply to the Application Gateway."
   type        = map(string)

@@ -68,20 +68,3 @@ variable "app_gateway_id" {
   description = "The ID of the Application Gateway to be used with AGIC."
   type        = string
 }
-
-variable "ssl_certificate_name" {
-  description = "The name of the SSL certificate for the Application Gateway."
-  type        = string
-  default     = "appgw-ssl-cert"
-}
-
-variable "ssl_certificate_path" {
-  description = "The path to the SSL certificate file (PFX format)."
-  type        = string
-}
-
-variable "ssl_certificate_password" {
-  description = "The password for the SSL certificate."
-  type        = string
-  sensitive   = true
-}
