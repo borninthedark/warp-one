@@ -77,15 +77,16 @@ module "public_ip" {
 
 # Application Gateway
 module "application_gateway" {
-  source                    = "./modules/application_gateway"
-  name                      = "appgw-warp-one-${local.environment}"
-  location                  = module.resource_group.resource_group_location
-  resource_group_name       = module.resource_group.resource_group_name
-  public_ip_address_id      = module.public_ip.public_ip_id
-  subnet_id                 = module.network.appgw_subnet_id
-  ssl_certificate_name      = module.certificates.ssl_certificate_name
-  ssl_certificate_secret_id = module.certificates.certificate_secret_id # ✅ Correct reference to Key Vault Secret
+  source               = "./modules/application_gateway"
+  name                 = "appgw-warp-one-${local.environment}"
+  location             = module.resource_group.resource_group_location
+  resource_group_name  = module.resource_group.resource_group_name
+  public_ip_address_id = module.public_ip.public_ip_id
+  subnet_id            = module.network.appgw_subnet_id
+  ssl_certificate_name       = module.certificates.ssl_certificate_name
+  ssl_certificate_secret_id  = module.certificates.certificate_secret_id 
 }
+
 
 # Azure Container Registry (ACR)
 module "acr" {

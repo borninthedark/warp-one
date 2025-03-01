@@ -24,33 +24,26 @@ resource "azurerm_application_gateway" "appgw" {
   }
 
   frontend_port {
-    name = "http-port"
-    port = 80
-  }
-
-  frontend_port {
     name = "https-port"
     port = 443
   }
 
   backend_address_pool {
-    name = "default-backend-pool"
+    name = "backend-pool"
   }
 
   backend_http_settings {
-    name                  = "http-settings"
+    name                  = "backend-http-settings"
     cookie_based_affinity = "Disabled"
     path                  = "/"
     port                  = 80
     protocol              = "Http"
-    request_timeout       = 20
+    request_timeout       = 30
   }
 
-  http_listener {
-    name                           = "http-listener"
-    frontend_ip_configuration_name = "frontend-ip"
-    frontend_port_name             = "http-port"
-    protocol                       = "Http"
+  ssl_certificate {
+    name                = var.ssl_certificate_name
+    key_vault_secret_id = var.ssl_certificate_secret_id
   }
 
   http_listener {
@@ -58,33 +51,19 @@ resource "azurerm_application_gateway" "appgw" {
     frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "https-port"
     protocol                       = "Https"
-    ssl_certificate_name           = var.ssl_certificate_name # ✅ Correct reference to Key Vault SSL certificate
-  }
-
-  ssl_certificate {
-    name                = var.ssl_certificate_name
-    key_vault_secret_id = var.ssl_certificate_secret_id # ✅ Correct Key Vault SSL reference
-  }
-
-  request_routing_rule {
-    name                       = "http-routing-rule"
-    rule_type                  = "Basic"
-    http_listener_name         = "http-listener"
-    backend_address_pool_name  = "default-backend-pool"
-    backend_http_settings_name = "http-settings"
-    priority                   = 1
+    ssl_certificate_name           = var.ssl_certificate_name
   }
 
   request_routing_rule {
     name                       = "https-routing-rule"
     rule_type                  = "Basic"
     http_listener_name         = "https-listener"
-    backend_address_pool_name  = "default-backend-pool"
-    backend_http_settings_name = "http-settings"
-    priority                   = 2
+    backend_address_pool_name  = "backend-pool"
+    backend_http_settings_name = "backend-http-settings"
+    priority                   = 1
   }
 
-  depends_on = [var.ssl_certificate_secret_id] # ✅ Ensures SSL certificate is created first
-
   tags = var.tags
+
+  depends_on = [var.ssl_certificate_secret_id] # ✅ Ensures SSL certificate exists before Gateway
 }
