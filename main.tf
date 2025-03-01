@@ -110,6 +110,7 @@ module "aks" {
   azure_policy_enabled       = false
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
   acr_id                     = module.acr.acr_id
+  depends_on = [module.application_gateway] 
 }
 
 # Cert Manager

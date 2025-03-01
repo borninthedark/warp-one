@@ -24,8 +24,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     network_policy = "calico"
     outbound_type  = "loadBalancer"
   }
-
-  depends_on = [module.application_gateway]
 }
 
 
