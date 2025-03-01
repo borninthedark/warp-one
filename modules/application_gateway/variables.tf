@@ -34,8 +34,3 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
-
-variable "ssl_certificate_secret_id" {
-  description = "The Secret ID of the SSL certificate in Key Vault."
-  type        = string
-}
