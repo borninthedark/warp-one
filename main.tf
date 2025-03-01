@@ -114,35 +114,7 @@ module "aks" {
   depends_on = [module.application_gateway]
 }
 
-module "argocd" {
-  source = "./modules/argocd"
-  name   = "argocd"
-  namespace = "argocd"
 
-  kube_config_host              = module.aks.kube_config_host
-  kube_config_client_certificate = module.aks.kube_config_client_certificate
-  kube_config_client_key        = module.aks.kube_config_client_key
-  kube_config_ca                = module.aks.kube_config_ca
-
-  argocd_url        = "argocd.princetonstrong.online"  # ✅ Define ArgoCD URL
-  argocd_tls_secret = "argocd-tls-secret"             # ✅ Define TLS Secret Name
-
-  depends_on = [module.aks]  
-}
-
-
-module "cert_manager" {
-  source = "./modules/cert-manager"
-  name   = "cert-manager"
-  namespace = "cert-manager"
-
-  kube_config_host              = module.aks.kube_config_host
-  kube_config_client_certificate = module.aks.kube_config_client_certificate
-  kube_config_client_key        = module.aks.kube_config_client_key
-  kube_config_ca                = module.aks.kube_config_ca
-
-  depends_on = [module.aks] 
-}
 
 
 
