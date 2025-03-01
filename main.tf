@@ -115,33 +115,29 @@ module "aks" {
 }
 
 module "argocd" {
-  source    = "./modules/argocd"
-  name      = "argocd"
+  source = "./modules/argocd"
+  name   = "argocd"
   namespace = "argocd"
 
-  kube_config_host               = module.aks.kube_config_host
+  kube_config_host              = module.aks.kube_config_host
   kube_config_client_certificate = module.aks.kube_config_client_certificate
-  kube_config_client_key         = module.aks.kube_config_client_key
-  kube_config_ca                 = module.aks.kube_config_ca
+  kube_config_client_key        = module.aks.kube_config_client_key
+  kube_config_ca                = module.aks.kube_config_ca
 
-  argocd_url        = "argocd.princetonstrong.online"
-  argocd_tls_secret = "argocd-tls-secret"
-
-  depends_on = [module.aks]
+  depends_on = [module.aks]  
 }
 
-
 module "cert_manager" {
-  source    = "./modules/cert-manager"
-  name      = "cert-manager"
+  source = "./modules/cert-manager"
+  name   = "cert-manager"
   namespace = "cert-manager"
 
-  kube_config_host               = module.aks.kube_config_host
+  kube_config_host              = module.aks.kube_config_host
   kube_config_client_certificate = module.aks.kube_config_client_certificate
-  kube_config_client_key         = module.aks.kube_config_client_key
-  kube_config_ca                 = module.aks.kube_config_ca
+  kube_config_client_key        = module.aks.kube_config_client_key
+  kube_config_ca                = module.aks.kube_config_ca
 
-  depends_on = [module.aks]
+  depends_on = [module.aks] 
 }
 
 
