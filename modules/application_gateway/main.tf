@@ -1,8 +1,8 @@
 resource "azurerm_application_gateway_ssl_certificate" "appgw_ssl_cert" {
-  name                = var.ssl_certificate_name
+  name                     = var.ssl_certificate_name
   application_gateway_name = azurerm_application_gateway.appgw.name
-  resource_group_name = var.resource_group_name
-  key_vault_secret_id = module.certificates.certificate_secret_id 
+  resource_group_name      = var.resource_group_name
+  key_vault_secret_id      = var.ssl_certificate_secret_id 
 }
 
 resource "azurerm_application_gateway" "appgw" {

@@ -84,10 +84,9 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   public_ip_address_id = module.public_ip.public_ip_id
   subnet_id            = module.network.appgw_subnet_id
-  ssl_certificate_name     = "appgw-ssl-cert"
-  ssl_certificate_path     = "/path/to/certificate.pfx"  
-  ssl_certificate_password = "your-cert-password"       
+  ssl_certificate_secret_id = module.certificates.certificate_secret_id  
 }
+
 
 # Azure Container Registry (ACR)
 module "acr" {
@@ -100,11 +99,11 @@ module "acr" {
 # AKS Cluster
 module "aks" {
   source                     = "./modules/aks"
-  name                       = "aks-phoenix"
+  name                       = "aks-warp-one-${local.environment}"
   location                   = module.resource_group.resource_group_location
   resource_group_name        = module.resource_group.resource_group_name
   dns_prefix                 = "akswarpone"
-  kubernetes_version         = "1.30.7"
+  kubernetes_version         = "1.30.5"
   node_count                 = 2
   vm_size                    = "Standard_DS2_v2"
   rbac_enabled               = true
