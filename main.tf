@@ -24,25 +24,17 @@ module "network" {
   }
 }
 
-# Key Vault
-module "keyvault" {
-  source              = "./modules/keyvault"
+module "secrets" {
+  source              = "./modules/secrets"
   name                = "kv-warp-one-${local.environment}"
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
   object_id           = data.azurerm_client_config.current.object_id
   tenant_id           = data.azurerm_client_config.current.tenant_id
-}
 
-# SSL Cert Creation
-module "certificates" {
-  source                    = "./modules/certificates"
-  key_vault_id              = module.keyvault.id
-  ssl_certificate_name      = "appgw-ssl-cert"
-  aks_managed_identity_id   = "aks-managed-identity-guid"
-  appgw_managed_identity_id = "appgw-managed-identity-guid"
-  domain_name               = "princetonstrong.online"
-  validity_in_months        = 12
+  ssl_certificate_name = "appgw-ssl-cert"
+  domain_name         = "princetonstrong.online"
+  validity_in_months  = 12
 }
 
 # DNS Zone
