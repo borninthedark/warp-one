@@ -39,6 +39,7 @@ module "keyvault" {
 module "certificates" {
   source                    = "./modules/certificates"
   key_vault_id              = module.keyvault.id
+  ssl_certificate_name      = "appgw-ssl-cert"
   aks_managed_identity_id   = "aks-managed-identity-guid"
   appgw_managed_identity_id = "appgw-managed-identity-guid"
   domain_name               = "princetonstrong.online"
@@ -86,7 +87,6 @@ module "application_gateway" {
   ssl_certificate_name       = module.certificates.ssl_certificate_name
   ssl_certificate_secret_id  = module.certificates.certificate_secret_id 
 }
-
 
 # Azure Container Registry (ACR)
 module "acr" {
