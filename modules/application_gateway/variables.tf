@@ -29,8 +29,14 @@ variable "ssl_certificate_name" {
   default     = "appgw-ssl-cert"
 }
 
+variable "ssl_certificate_secret_id" {
+  description = "The Secret ID of the SSL certificate stored in Key Vault."
+  type        = string
+}
+
 variable "tags" {
   description = "A map of tags to apply to the Application Gateway."
   type        = map(string)
   default     = {}
 }
+

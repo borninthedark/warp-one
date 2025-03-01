@@ -28,13 +28,13 @@ resource "azurerm_key_vault_certificate" "ssl_cert" {
     }
 
     x509_certificate_properties {
-      key_usage           = ["digitalSignature", "keyEncipherment"]
-      subject             = "CN=${var.domain_name}"
-      validity_in_months  = var.validity_in_months
+      key_usage          = ["digitalSignature", "keyEncipherment"]
+      subject            = "CN=${var.domain_name}"
+      validity_in_months = var.validity_in_months
     }
   }
 
-  depends_on = [var.key_vault_id] 
+  depends_on = [var.key_vault_id]
 }
 
 # Assign permissions to AKS and Application Gateway
@@ -43,7 +43,7 @@ resource "azurerm_role_assignment" "aks_cert_reader" {
   role_definition_name = "Reader"
   principal_id         = var.aks_managed_identity_id
 
-  depends_on = [azurerm_key_vault_certificate.ssl_cert] 
+  depends_on = [azurerm_key_vault_certificate.ssl_cert]
 }
 
 resource "azurerm_role_assignment" "appgw_cert_reader" {
@@ -51,5 +51,5 @@ resource "azurerm_role_assignment" "appgw_cert_reader" {
   role_definition_name = "Reader"
   principal_id         = var.appgw_managed_identity_id
 
-  depends_on = [azurerm_key_vault_certificate.ssl_cert] 
+  depends_on = [azurerm_key_vault_certificate.ssl_cert]
 }

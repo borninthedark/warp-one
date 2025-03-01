@@ -37,12 +37,12 @@ module "keyvault" {
 
 # SSL Cert Creation
 module "certificates" {
-  source                     = "./modules/certificates"
-  key_vault_id               = module.keyvault.id
-  aks_managed_identity_id    = "aks-managed-identity-guid"  
-  appgw_managed_identity_id  = "appgw-managed-identity-guid"  
-  domain_name                = "princetonstrong.online"
-  validity_in_months         = 12
+  source                    = "./modules/certificates"
+  key_vault_id              = module.keyvault.id
+  aks_managed_identity_id   = "aks-managed-identity-guid"
+  appgw_managed_identity_id = "appgw-managed-identity-guid"
+  domain_name               = "princetonstrong.online"
+  validity_in_months        = 12
 }
 
 # DNS Zone
@@ -77,13 +77,14 @@ module "public_ip" {
 
 # Application Gateway
 module "application_gateway" {
-  source               = "./modules/application_gateway"
-  name                 = "appgw-warp-one-${local.environment}"
-  location             = module.resource_group.resource_group_location
-  resource_group_name  = module.resource_group.resource_group_name
-  public_ip_address_id = module.public_ip.public_ip_id
-  subnet_id            = module.network.appgw_subnet_id
-  ssl_certificate_secret_id = module.certificates.certificate_secret_id  
+  source                    = "./modules/application_gateway"
+  name                      = "appgw-warp-one-${local.environment}"
+  location                  = module.resource_group.resource_group_location
+  resource_group_name       = module.resource_group.resource_group_name
+  public_ip_address_id      = module.public_ip.public_ip_id
+  subnet_id                 = module.network.appgw_subnet_id
+  ssl_certificate_name      = module.certificates.ssl_certificate_name
+  ssl_certificate_secret_id = module.certificates.certificate_secret_id # ✅ Correct reference to Key Vault Secret
 }
 
 # Azure Container Registry (ACR)

@@ -24,6 +24,11 @@ resource "azurerm_application_gateway" "appgw" {
   }
 
   frontend_port {
+    name = "http-port"
+    port = 80
+  }
+
+  frontend_port {
     name = "https-port"
     port = 443
   }
@@ -42,11 +47,32 @@ resource "azurerm_application_gateway" "appgw" {
   }
 
   http_listener {
+    name                           = "http-listener"
+    frontend_ip_configuration_name = "frontend-ip"
+    frontend_port_name             = "http-port"
+    protocol                       = "Http"
+  }
+
+  http_listener {
     name                           = "https-listener"
     frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "https-port"
     protocol                       = "Https"
-    ssl_certificate_name           = var.ssl_certificate_name
+    ssl_certificate_name           = var.ssl_certificate_name # ✅ Correct reference to Key Vault SSL certificate
+  }
+
+  ssl_certificate {
+    name                = var.ssl_certificate_name
+    key_vault_secret_id = var.ssl_certificate_secret_id # ✅ Correct Key Vault SSL reference
+  }
+
+  request_routing_rule {
+    name                       = "http-routing-rule"
+    rule_type                  = "Basic"
+    http_listener_name         = "http-listener"
+    backend_address_pool_name  = "default-backend-pool"
+    backend_http_settings_name = "http-settings"
+    priority                   = 1
   }
 
   request_routing_rule {
@@ -55,8 +81,10 @@ resource "azurerm_application_gateway" "appgw" {
     http_listener_name         = "https-listener"
     backend_address_pool_name  = "default-backend-pool"
     backend_http_settings_name = "http-settings"
-    priority                   = 1
+    priority                   = 2
   }
 
   depends_on = [var.ssl_certificate_secret_id] # ✅ Ensures SSL certificate is created first
+
+  tags = var.tags
 }
