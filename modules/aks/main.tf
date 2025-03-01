@@ -25,7 +25,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     outbound_type  = "loadBalancer"
   }
 
-  depends_on = [azurerm_application_gateway.appgw] # ✅ Ensure correct dependency
+  depends_on = [module.application_gateway]
 }
 
 
