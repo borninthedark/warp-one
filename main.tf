@@ -35,6 +35,17 @@ module "keyvault" {
   object_id           = data.azurerm_client_config.current.object_id
 }
 
+# SSL Cert Creation
+module "certificates" {
+  source                     = "./modules/certificates"
+  ssl_certificate_name       = "appgw-ssl-cert"
+  key_vault_id               = module.keyvault.keyvault_id
+  aks_managed_identity_id    = module.aks.aks_managed_identity_id
+  appgw_managed_identity_id  = module.application_gateway.app_gateway_id
+  domain_name                = "princetonstrong.online"
+  validity_in_months         = 12
+}
+
 # DNS Zone
 module "dns" {
   source              = "./modules/dns"
@@ -72,7 +83,10 @@ module "application_gateway" {
   location             = module.resource_group.resource_group_location
   resource_group_name  = module.resource_group.resource_group_name
   public_ip_address_id = module.public_ip.public_ip_id
-  subnet_id            = module.network.appgw_subnet_id 
+  subnet_id            = module.network.appgw_subnet_id
+  ssl_certificate_name     = "appgw-ssl-cert"
+  ssl_certificate_path     = "/path/to/certificate.pfx"  
+  ssl_certificate_password = "your-cert-password"       
 }
 
 # Azure Container Registry (ACR)
