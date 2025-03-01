@@ -41,14 +41,12 @@ resource "azurerm_application_gateway" "appgw" {
     request_timeout       = 20
   }
 
-  http_listener {
+ http_listener {
     name                           = "https-listener"
     frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "https-port"
     protocol                       = "Https"
-    ssl_certificate {
-      key_vault_secret_id = var.ssl_certificate_secret_id  
-    }
+    ssl_certificate_name           = var.ssl_certificate_name 
   }
 
   request_routing_rule {

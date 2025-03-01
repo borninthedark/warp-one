@@ -13,7 +13,6 @@ resource "azurerm_key_vault" "keyvault" {
     key_permissions    = var.key_permissions
     certificate_permissions = var.certificate_permissions
   }
-
   tags = var.tags
 }
 

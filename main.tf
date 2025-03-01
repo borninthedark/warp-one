@@ -84,9 +84,8 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   public_ip_address_id = module.public_ip.public_ip_id
   subnet_id            = module.network.appgw_subnet_id
-  ssl_certificate_secret_id = module.certificates.certificate_secret_id  
+  ssl_certificate_name = module.certificates.ssl_certificate_name
 }
-
 
 # Azure Container Registry (ACR)
 module "acr" {
