@@ -35,6 +35,3 @@ output "application_gateway_id" {
   value = module.application_gateway.app_gateway_id
 }
 
-output "argocd_url" {
-  value = module.argocd.argocd_url
-}
