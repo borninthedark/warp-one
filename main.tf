@@ -109,7 +109,6 @@ module "aks" {
   rbac_enabled               = true
   azure_policy_enabled       = false
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
-  app_gateway_id             = module.application_gateway.app_gateway_id
   acr_id                     = module.acr.acr_id
 }
 
