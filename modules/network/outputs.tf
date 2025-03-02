@@ -17,3 +17,4 @@ output "appgw_public_ip_id" {
   description = "The ID of the Public IP for Application Gateway."
   value       = azurerm_public_ip.appgw_public_ip.id
 }
+

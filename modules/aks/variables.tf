@@ -64,3 +64,7 @@ variable "acr_id" {
   type        = string
 }
 
+variable "appgw_subnet_id" {
+  description = "The ID of the Application Gateway subnet."
+  type        = string
+}

@@ -7,7 +7,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     name       = "default"
-    node_count = 2
+    node_count = 3
     vm_size    = "Standard_DS2_v2"
   }
 
@@ -15,17 +15,16 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  addon_profile {
+  # Application Gateway Ingress Controller (AGIC)
+  aks_addon_profile {
     ingress_application_gateway {
-      enabled      = true
-      subnet_id    = var.appgw_subnet_id  
+      enabled   = true
+      subnet_id = var.appgw_subnet_id 
     }
   }
 
-  depends_on = [var.appgw_subnet_id]  
+  depends_on = [var.appgw_subnet_id] 
 }
-
-
 
 # Grant AKS permission to pull from ACR
 resource "azurerm_role_assignment" "aks_acr_pull" {
