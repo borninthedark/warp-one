@@ -1,11 +1,10 @@
 provider "azurerm" {
   features {}
 
-  # Authentication via Service Principal 
-  client_id       = TF_VAR_ARM_CLIENT_ID
-  client_secret   = TF_VAR_ARM_CLIENT_SECRET
-  tenant_id       = TF_VAR_ARM_TENANT_ID
-  subscription_id = TF_VAR_ARM_SUBSCRIPTION_ID
+  client_id       = var.client_id       
+  client_secret   = var.client_secret   
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
 }
 
 
