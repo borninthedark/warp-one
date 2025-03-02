@@ -201,3 +201,15 @@ variable "log_analytics_workspace_id" {
   type        = string
   default     = null
 }
+
+variable "appgw_subnet_id" {
+  description = "Subnet ID where the Application Gateway resides."
+  type        = string
+  default     = null
+}
+
+variable "appgw_public_ip_id" {
+  description = "Public IP address resource ID for the new or existing Application Gateway."
+  type        = string
+  default     = null
+}
