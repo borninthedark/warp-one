@@ -7,8 +7,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     name       = "default"
-    node_count = var.node_count  # ✅ Now correctly placed inside `default_node_pool`
-    vm_size    = var.vm_size  # ✅ Now correctly placed inside `default_node_pool`
+    node_count = var.node_count # ✅ Now correctly placed inside `default_node_pool`
+    vm_size    = var.vm_size    # ✅ Now correctly placed inside `default_node_pool`
   }
 
   identity {
@@ -20,19 +20,20 @@ resource "azurerm_kubernetes_cluster" "aks" {
     subnet_id = var.appgw_subnet_id
   }
 
-  role_based_access_control_enabled = var.rbac_enabled  
+  role_based_access_control_enabled = var.rbac_enabled
 
   oms_agent {
-    log_analytics_workspace_id = var.log_analytics_workspace_id  
+    log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  tags = {
-    Environment = "Production"
+    tags = {
+      Environment = "Production"
+    }
+
+    depends_on = [
+      var.appgw_subnet_id,
+      var.log_analytics_workspace_id
+    ]
   }
-
-  depends_on = [
-    var.appgw_subnet_id, 
-    var.log_analytics_workspace_id
-  ]
 }
 
 # Attach ACR to AKS (Role Assignment for Pull Access)
