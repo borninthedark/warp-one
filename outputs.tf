@@ -32,6 +32,6 @@ output "application_gateway_id" {
 }
 
 output "public_ip_address" {
-  value = module.network.appgw_public_ip_id 
+  value = module.network.appgw_public_ip_id
 }
 

@@ -61,14 +61,14 @@ module "log_analytics" {
 
 # Application Gateway 
 module "application_gateway" {
-  source                     = "./modules/application_gateway"
-  name                       = "appgw-warp-one-${local.environment}"
-  location                   = module.resource_group.resource_group_location
-  resource_group_name        = module.resource_group.resource_group_name
-  subnet_id                  = module.network.appgw_subnet_id
-  public_ip_address_id       = module.network.appgw_public_ip_id
-  ssl_certificate_name       = module.secrets_management.ssl_certificate_name
-  ssl_certificate_secret_id  = module.secrets_management.certificate_secret_id
+  source                    = "./modules/application_gateway"
+  name                      = "appgw-warp-one-${local.environment}"
+  location                  = module.resource_group.resource_group_location
+  resource_group_name       = module.resource_group.resource_group_name
+  subnet_id                 = module.network.appgw_subnet_id
+  public_ip_address_id      = module.network.appgw_public_ip_id
+  ssl_certificate_name      = module.secrets_management.ssl_certificate_name
+  ssl_certificate_secret_id = module.secrets_management.certificate_secret_id
   tags = {
     environment = local.environment
     project     = "phoenix"
@@ -85,28 +85,29 @@ module "acr" {
 
 # AKS
 module "aks" {
-  source                                    = "./modules/aks"
-  name                                      = "aks-${local.environment}"
-  location                                  = module.resource_group.resource_group_location
-  resource_group_name                       = module.resource_group.resource_group_name
-  dns_prefix                                = "akswarpone"
-  kubernetes_version                        = "1.30"
-  automatic_channel_upgrade                 = "patch"
-  agents_availability_zones                 = ["1", "2"]
-  agents_max_count                          = 2
-  agents_max_pods                           = 100
-  agents_min_count                          = 1
-  agents_pool_name                          = "starbase-one"
-  enable_auto_scaling                       = true
-  enable_host_encryption                    = true
+  source                                      = "./modules/aks"
+  name                                        = "aks-${local.environment}"
+  acr_id                                      = module.acr.acr_id
+  location                                    = module.resource_group.resource_group_location
+  resource_group_name                         = module.resource_group.resource_group_name
+  dns_prefix                                  = "akswarpone"
+  kubernetes_version                          = "1.30"
+  automatic_channel_upgrade                   = "patch"
+  agents_availability_zones                   = ["1", "2"]
+  agents_max_count                            = 2
+  agents_max_pods                             = 100
+  agents_min_count                            = 1
+  agents_pool_name                            = "starbase-one"
+  enable_auto_scaling                         = true
+  enable_host_encryption                      = true
   green_field_application_gateway_for_ingress = null
   brown_field_application_gateway_for_ingress = {
     id        = module.application_gateway.appgw_id
     subnet_id = module.network.appgw_subnet_id
   }
   create_role_assignments_for_application_gateway = true
-  rbac_aad                                       = true
-  role_based_access_control_enabled              = true
-  vnet_subnet_id                                 = module.network.aks_subnet_id
+  rbac_aad                                        = true
+  role_based_access_control_enabled               = true
+  vnet_subnet_id                                  = module.network.aks_subnet_id
 }
 
