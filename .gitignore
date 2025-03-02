@@ -34,6 +34,7 @@ secrets/
 # Python virtual environment directories
 venv/
 env/
+.env
 .venv/
 __pycache__/
 
