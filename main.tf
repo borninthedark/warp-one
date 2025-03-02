@@ -97,6 +97,7 @@ module "aks" {
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id  
   acr_id                     = module.acr.acr_id  
   appgw_subnet_id            = module.network.appgw_subnet_id  
+  aks_subnet_id              = module.network.aks_subnet_id 
 }
 
 
