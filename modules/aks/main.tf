@@ -7,8 +7,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     name       = "default"
-    node_count = 1  
-    vm_size    = "Standard_D2_v2"
+    node_count = var.node_count  # ✅ Now correctly placed inside `default_node_pool`
+    vm_size    = var.vm_size  # ✅ Now correctly placed inside `default_node_pool`
   }
 
   identity {
@@ -17,23 +17,28 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   ingress_application_gateway {
     enabled   = true
-    subnet_id = var.appgw_subnet_id 
+    subnet_id = var.appgw_subnet_id
   }
+
+  role_based_access_control_enabled = var.rbac_enabled  
+
+  oms_agent {
+    log_analytics_workspace_id = var.log_analytics_workspace_id  
 
   tags = {
     Environment = "Production"
   }
 
-  depends_on = [var.appgw_subnet_id] 
+  depends_on = [
+    var.appgw_subnet_id, 
+    var.log_analytics_workspace_id
+  ]
 }
 
-
-# Grant AKS permission to pull from ACR
+# Attach ACR to AKS (Role Assignment for Pull Access)
 resource "azurerm_role_assignment" "aks_acr_pull" {
   scope                = var.acr_id
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
-  depends_on           = [azurerm_kubernetes_cluster.aks]
 }
-
 

@@ -82,17 +82,17 @@ module "acr" {
 # AKS
 module "aks" {
   source                     = "./modules/aks"
-  name                       = "aks-${local.environment}"
+  name                       = "aks-warp-one-${local.environment}"
   location                   = module.resource_group.resource_group_location
   resource_group_name        = module.resource_group.resource_group_name
   dns_prefix                 = "akswarpone"
   kubernetes_version         = "1.30.5"
-  node_count                 = 2
-  vm_size                    = "Standard_DS2_v2"
-  rbac_enabled               = true
-  azure_policy_enabled       = false
-  log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
-  acr_id                     = module.acr.acr_id
-  appgw_subnet_id            = module.network.appgw_subnet_id  # ✅ Now Passing Subnet ID
+  node_count                 = 2  
+  vm_size                    = "Standard_DS2_v2"  
+  rbac_enabled               = true  
+  log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id  
+  acr_id                     = module.acr.acr_id  
+  appgw_subnet_id            = module.network.appgw_subnet_id  
 }
+
 
