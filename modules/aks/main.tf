@@ -3,11 +3,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
-  kubernetes_version  = "1.30.5"
+  kubernetes_version  = var.kubernetes_version
 
   default_node_pool {
     name       = "default"
-    node_count = 3
+    node_count = 2
     vm_size    = "Standard_DS2_v2"
   }
 
@@ -15,15 +15,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  # Application Gateway Ingress Controller (AGIC)
-  aks_addon_profile {
+  addon_profile {  
     ingress_application_gateway {
       enabled   = true
-      subnet_id = var.appgw_subnet_id 
+      subnet_id = var.appgw_subnet_id
     }
   }
 
-  depends_on = [var.appgw_subnet_id] 
+  depends_on = [var.appgw_subnet_id]  
 }
 
 # Grant AKS permission to pull from ACR

@@ -27,11 +27,11 @@ output "acr_login_server" {
   value = module.acr.acr_login_server
 }
 
-output "public_ip_address" {
-  value = module.public_ip.public_ip_address
-}
-
 output "application_gateway_id" {
   value = module.application_gateway.app_gateway_id
+}
+
+output "public_ip_address" {
+  value = module.network.appgw_public_ip_id 
 }
 
