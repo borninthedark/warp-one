@@ -65,5 +65,5 @@ resource "azurerm_application_gateway" "appgw" {
 
   tags = var.tags
 
-  depends_on = [var.ssl_certificate_secret_id] # ✅ Ensures SSL certificate exists before Gateway
+  depends_on = [var.ssl_certificate_secret_id] 
 }

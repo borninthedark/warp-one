@@ -7,23 +7,26 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     name       = "default"
-    node_count = var.node_count # ✅ Now correctly placed inside `default_node_pool`
-    vm_size    = var.vm_size    # ✅ Now correctly placed inside `default_node_pool`
+    node_count = var.node_count
+    vm_size    = var.vm_size
+    vnet_subnet_id = var.aks_subnet_id  
   }
 
   identity {
     type = "SystemAssigned"
   }
 
+  network_profile {
+    network_plugin = "azure"  
+    network_policy = "calico"
+  }
+
   ingress_application_gateway {
-    subnet_id = var.appgw_subnet_id
+    enabled   = true
+    subnet_id = var.appgw_subnet_id  
   }
 
-  role_based_access_control_enabled = var.rbac_enabled
-
-  oms_agent {
-    log_analytics_workspace_id = var.log_analytics_workspace_id
-  }
+  depends_on = [var.appgw_subnet_id]
 }
 
 # Attach ACR to AKS (Role Assignment for Pull Access)

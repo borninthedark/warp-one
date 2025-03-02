@@ -4,39 +4,37 @@ variable "name" {
 }
 
 variable "location" {
-  description = "The Azure region where the Application Gateway will be deployed."
+  description = "The Azure region for the Application Gateway."
   type        = string
 }
 
 variable "resource_group_name" {
-  description = "The resource group where the Application Gateway will be created."
+  description = "The name of the resource group where Application Gateway is deployed."
   type        = string
 }
 
 variable "subnet_id" {
-  description = "The subnet ID where the Application Gateway is deployed."
+  description = "The ID of the subnet where Application Gateway is deployed."
   type        = string
 }
 
 variable "public_ip_address_id" {
-  description = "The public IP ID assigned to the Application Gateway."
+  description = "The ID of the Public IP address for the Application Gateway."
   type        = string
 }
 
 variable "ssl_certificate_name" {
-  description = "The name of the SSL certificate to use for HTTPS."
+  description = "The name of the SSL certificate used by Application Gateway."
   type        = string
-  default     = "appgw-ssl-cert"
 }
 
 variable "ssl_certificate_secret_id" {
-  description = "The Secret ID of the SSL certificate stored in Key Vault."
+  description = "The Azure Key Vault Secret ID for the SSL certificate."
   type        = string
 }
 
 variable "tags" {
-  description = "A map of tags to apply to the Application Gateway."
+  description = "Tags to be applied to the Application Gateway."
   type        = map(string)
   default     = {}
 }
-

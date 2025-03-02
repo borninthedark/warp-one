@@ -61,14 +61,18 @@ module "log_analytics" {
 
 # Application Gateway 
 module "application_gateway" {
-  source                    = "./modules/application_gateway"
-  name                      = "appgw-${local.environment}"
-  location                  = module.resource_group.resource_group_location
-  resource_group_name       = module.resource_group.resource_group_name
-  public_ip_address_id      = module.network.appgw_public_ip_id  
-  subnet_id                 = module.network.appgw_subnet_id
-  ssl_certificate_name      = module.secrets_management.ssl_certificate_name
-  ssl_certificate_secret_id = module.secrets_management.certificate_secret_id
+  source                     = "./modules/application_gateway"
+  name                       = "appgw-warp-one-${local.environment}"
+  location                   = module.resource_group.resource_group_location
+  resource_group_name        = module.resource_group.resource_group_name
+  subnet_id                  = module.network.appgw_subnet_id
+  public_ip_address_id       = module.network.appgw_public_ip_id
+  ssl_certificate_name       = module.secrets.ssl_certificate_name
+  ssl_certificate_secret_id  = module.secrets.certificate_secret_id
+  tags = {
+    environment = local.environment
+    project     = "phoenix"
+  }
 }
 
 # Azure Container Registry (ACR)

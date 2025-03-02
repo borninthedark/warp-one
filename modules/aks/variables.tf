@@ -56,3 +56,8 @@ variable "appgw_subnet_id" {
   description = "The ID of the Application Gateway subnet."
   type        = string
 }
+
+variable "aks_subnet_id" {
+  description = "The ID of the subnet where AKS will be deployed."
+  type        = string
+}
