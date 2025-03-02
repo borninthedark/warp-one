@@ -25,8 +25,8 @@ module "network" {
 }
 
 # Secrets & Key Vault
-module "secrets" {
-  source              = "./modules/secrets"
+module "secrets_management" {
+  source              = "./modules/secrets_management"
   name                = "kv-warp-one-${local.environment}"
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
@@ -71,7 +71,7 @@ module "public_ip" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# Application Gateway (Uses SSL Certificate from Secrets)
+# Application Gateway 
 module "application_gateway" {
   source                    = "./modules/application_gateway"
   name                      = "appgw-warp-one-${local.environment}"
@@ -79,8 +79,8 @@ module "application_gateway" {
   resource_group_name       = module.resource_group.resource_group_name
   public_ip_address_id      = module.public_ip.public_ip_id
   subnet_id                 = module.network.appgw_subnet_id
-  ssl_certificate_name      = module.secrets.ssl_certificate_name  # ✅ Uses Secrets Module
-  ssl_certificate_secret_id = module.secrets.certificate_secret_id
+  ssl_certificate_name      = module.secrets_management.ssl_certificate_name  # ✅ Uses Secrets Module
+  ssl_certificate_secret_id = module.secrets_management.certificate_secret_id
 }
 
 # Azure Container Registry (ACR)
@@ -91,7 +91,7 @@ module "acr" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# AKS Cluster (Depends on Secrets & Key Vault)
+# AKS Cluster 
 module "aks" {
   source                     = "./modules/aks"
   name                       = "aks-warp-one-${local.environment}"
@@ -106,5 +106,5 @@ module "aks" {
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
   acr_id                     = module.acr.acr_id
 
-  depends_on = [module.secrets]  
+  depends_on = [module.secrets_management]  
 }
