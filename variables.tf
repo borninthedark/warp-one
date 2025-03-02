@@ -10,9 +10,13 @@ variable "location" {
   default     = "East US" # Change to your preferred Azure region
 }
 
-variable "dns_zone_name" {
-  description = "The name of the DNS zone."
+variable "secret_name" {
+  description = "The name of the secret to store in Key Vault."
   type        = string
-  default     = "warp-one.com" # Replace with your desired DNS zone name
 }
 
+variable "secret_value" {
+  description = "The value of the secret to store in Key Vault."
+  type        = string
+  sensitive   = true
+}

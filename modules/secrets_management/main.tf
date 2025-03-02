@@ -6,6 +6,12 @@ resource "azurerm_key_vault" "keyvault" {
   tenant_id           = var.tenant_id
 }
 
+resource "azurerm_key_vault_secret" "lcars_secret" {
+  name         = var.secret_name
+  value        = var.secret_value  
+  key_vault_id = azurerm_key_vault.keyvault.id
+}
+
 resource "azurerm_key_vault_access_policy" "terraform_sp" {
   key_vault_id = azurerm_key_vault.keyvault.id
   tenant_id    = var.tenant_id
