@@ -69,6 +69,8 @@ module "public_ip" {
   name                = "appgw-public-ip-${local.environment}"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
+
+  depends_on = [module.network]
 }
 
 # Application Gateway 

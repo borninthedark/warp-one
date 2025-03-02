@@ -15,11 +15,7 @@ resource "azurerm_key_vault_secret" "lcars_secret" {
 resource "azurerm_key_vault_access_policy" "terraform_sp" {
   key_vault_id = azurerm_key_vault.keyvault.id
   tenant_id    = var.tenant_id
-  object_id    = var.object_id # Terraform Service Principal ID
-
-  key_permissions = [
-    "Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore"
-  ]
+  object_id    = var.object_id  
 
   secret_permissions = [
     "Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"
