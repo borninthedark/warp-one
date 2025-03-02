@@ -37,8 +37,8 @@ module "secrets_management" {
   domain_name         = "princetonstrong.online"
   validity_in_months  = 12
 
-  secret_name  = module.secrets_management.secret_name
-  secret_value = module.secrets_management.secret_value 
+  secret_name  = var.secret_name
+  secret_value = var.secret_value
 }
 
 # DNS Zone
