@@ -1,20 +1,20 @@
-variable "resource_group_name" {
-  description = "The name of the resource group where networking resources will be created."
+variable "location" {
+  description = "The Azure region for network resources."
   type        = string
 }
 
-variable "location" {
-  description = "The Azure region where resources will be deployed."
+variable "resource_group_name" {
+  description = "The name of the resource group."
   type        = string
 }
 
 variable "vnet_name" {
-  description = "The name of the virtual network."
+  description = "The name of the Virtual Network."
   type        = string
 }
 
 variable "vnet_address_space" {
-  description = "The address space for the virtual network."
+  description = "The address space for the Virtual Network."
   type        = list(string)
 }
 
@@ -39,17 +39,17 @@ variable "appgw_subnet_address_prefixes" {
 }
 
 variable "nsg_name" {
-  description = "The name of the Network Security Group (NSG)."
+  description = "The name of the Network Security Group."
   type        = string
 }
 
 variable "appgw_public_ip_name" {
-  description = "The name of the public IP for the Application Gateway."
+  description = "The name of the Public IP for Application Gateway."
   type        = string
 }
 
 variable "tags" {
-  description = "A map of tags to be applied to all resources."
+  description = "Tags to apply to all resources."
   type        = map(string)
   default     = {}
 }

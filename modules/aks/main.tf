@@ -3,27 +3,26 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
-  kubernetes_version  = var.kubernetes_version
+  kubernetes_version  = "1.30.5"
+
   default_node_pool {
     name       = "default"
-    node_count = var.node_count
-    vm_size    = var.vm_size
+    node_count = 2
+    vm_size    = "Standard_DS2_v2"
   }
 
   identity {
     type = "SystemAssigned"
   }
 
-  role_based_access_control_enabled = var.rbac_enabled
-  azure_policy_enabled              = var.azure_policy_enabled
-
-  tags = var.tags
-
-  network_profile {
-    network_plugin = "azure"
-    network_policy = "calico"
-    outbound_type  = "loadBalancer"
+  addon_profile {
+    ingress_application_gateway {
+      enabled      = true
+      subnet_id    = var.appgw_subnet_id  
+    }
   }
+
+  depends_on = [var.appgw_subnet_id]  
 }
 
 

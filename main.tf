@@ -8,8 +8,8 @@ module "resource_group" {
 # Networking
 module "network" {
   source                        = "./modules/network"
-  resource_group_name           = module.resource_group.resource_group_name
   location                      = module.resource_group.resource_group_location
+  resource_group_name           = module.resource_group.resource_group_name
   vnet_name                     = "vnet-${local.environment}"
   vnet_address_space            = ["10.0.0.0/16"]
   aks_subnet_name               = "aks-subnet"
@@ -18,10 +18,6 @@ module "network" {
   appgw_subnet_address_prefixes = ["10.0.2.0/24"]
   nsg_name                      = "nsg-${local.environment}"
   appgw_public_ip_name          = "appgw-public-ip-${local.environment}"
-  tags = {
-    environment = local.environment
-    project     = "phoenix"
-  }
 }
 
 # Secrets & Key Vault
@@ -61,16 +57,6 @@ module "log_analytics" {
     environment = local.environment
     project     = "phoenix"
   }
-}
-
-# Public IP for Application Gateway
-module "public_ip" {
-  source              = "./modules/public_ip"
-  name                = "appgw-public-ip-${local.environment}"
-  location            = module.resource_group.resource_group_location
-  resource_group_name = module.resource_group.resource_group_name
-
-  depends_on = [module.network]
 }
 
 # Application Gateway 

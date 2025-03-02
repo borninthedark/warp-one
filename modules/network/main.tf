@@ -59,4 +59,3 @@ resource "azurerm_public_ip" "appgw_public_ip" {
 
   tags = var.tags
 }
-
