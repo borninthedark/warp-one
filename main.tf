@@ -79,7 +79,7 @@ module "application_gateway" {
   resource_group_name       = module.resource_group.resource_group_name
   public_ip_address_id      = module.public_ip.public_ip_id
   subnet_id                 = module.network.appgw_subnet_id
-  ssl_certificate_name      = module.secrets_management.ssl_certificate_name  # ✅ Uses Secrets Module
+  ssl_certificate_name      = module.secrets_management.ssl_certificate_name  
   ssl_certificate_secret_id = module.secrets_management.certificate_secret_id
 }
 
