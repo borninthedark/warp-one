@@ -189,3 +189,15 @@ variable "vnet_subnet_id" {
   description = "The VNet subnet ID for AKS."
   type        = string
 }
+
+variable "vm_size" {
+  description = "Size of the VMs in the default node pool."
+  type        = string
+  default     = "Standard_DS2_v2"
+}
+
+variable "log_analytics_workspace_id" {
+  description = "The ID of the Log Analytics Workspace for AKS logging."
+  type        = string
+  default     = null
+}

@@ -14,6 +14,6 @@ output "appgw_frontend_ip" {
 }
 
 output "appgw_backend_pool_id" {
-  description = "The backend pool ID for the Application Gateway."
-  value       = azurerm_application_gateway.appgw.backend_address_pool[0].id
+  description = "ID of the first backend address pool in the Application Gateway."
+  value       = tolist(azurerm_application_gateway.appgw.backend_address_pool)[0].id
 }
