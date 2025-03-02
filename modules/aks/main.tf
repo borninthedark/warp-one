@@ -16,7 +16,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   ingress_application_gateway {
-    enabled   = true
     subnet_id = var.appgw_subnet_id
   }
 
@@ -24,15 +23,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   oms_agent {
     log_analytics_workspace_id = var.log_analytics_workspace_id
-
-    tags = {
-      Environment = "Production"
-    }
-
-    depends_on = [
-      var.appgw_subnet_id,
-      var.log_analytics_workspace_id
-    ]
   }
 }
 
