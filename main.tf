@@ -79,10 +79,10 @@ module "acr" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# AKS Cluster 
+# AKS
 module "aks" {
   source                     = "./modules/aks"
-  name                       = "aks-${local.environment}"
+  name                       = "aks-warp-one-${local.environment}"
   location                   = module.resource_group.resource_group_location
   resource_group_name        = module.resource_group.resource_group_name
   dns_prefix                 = "akswarpone"
@@ -93,6 +93,6 @@ module "aks" {
   azure_policy_enabled       = false
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
   acr_id                     = module.acr.acr_id
-
-  depends_on = [module.secrets_management]
+  appgw_subnet_id            = module.network.appgw_subnet_id  # ✅ Now Passing Subnet ID
 }
+
