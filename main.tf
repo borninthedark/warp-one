@@ -82,7 +82,7 @@ module "acr" {
 # AKS
 module "aks" {
   source                     = "./modules/aks"
-  name                       = "aks-warp-one-${local.environment}"
+  name                       = "aks-${local.environment}"
   location                   = module.resource_group.resource_group_location
   resource_group_name        = module.resource_group.resource_group_name
   dns_prefix                 = "akswarpone"

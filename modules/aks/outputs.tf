@@ -14,15 +14,21 @@ output "aks_name" {
   value       = azurerm_kubernetes_cluster.aks.name
 }
 
-output "kube_config_client_certificate" {
-  description = "The client certificate for authenticating to the AKS cluster."
-  value       = azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate
-  sensitive   = true
-}
-
 output "kube_config_client_key" {
   description = "The client key for authenticating to the AKS cluster."
   value       = azurerm_kubernetes_cluster.aks.kube_config.0.client_key
+  sensitive   = true
+}
+
+output "client_certificate" {
+  description = "The client certificate for connecting to the AKS cluster."
+  value       = azurerm_kubernetes_cluster.aks.kube_config[0].client_certificate
+  sensitive   = true
+}
+
+output "kube_config" {
+  description = "The raw kubeconfig file for the AKS cluster."
+  value       = azurerm_kubernetes_cluster.aks.kube_config_raw
   sensitive   = true
 }
 

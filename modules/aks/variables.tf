@@ -4,12 +4,12 @@ variable "name" {
 }
 
 variable "location" {
-  description = "The location (Azure region) to deploy the AKS cluster."
+  description = "The Azure region where AKS is deployed."
   type        = string
 }
 
 variable "resource_group_name" {
-  description = "The name of the resource group to deploy the AKS cluster."
+  description = "The name of the resource group for AKS."
   type        = string
 }
 
@@ -19,49 +19,9 @@ variable "dns_prefix" {
 }
 
 variable "kubernetes_version" {
-  description = "The version of Kubernetes to use in the AKS cluster."
+  description = "The Kubernetes version for AKS."
   type        = string
-  default     = "1.21.5" # Change as needed
-}
-
-variable "node_count" {
-  description = "The number of nodes in the AKS node pool."
-  type        = number
-  default     = 3
-}
-
-variable "vm_size" {
-  description = "The VM size for AKS nodes."
-  type        = string
-  default     = "Standard_DS2_v2"
-}
-
-variable "rbac_enabled" {
-  description = "Whether to enable RBAC on the AKS cluster."
-  type        = bool
-  default     = true
-}
-
-variable "azure_policy_enabled" {
-  description = "Whether to enable Azure Policy add-on."
-  type        = bool
-  default     = true
-}
-
-variable "log_analytics_workspace_id" {
-  description = "The ID of the Log Analytics workspace to use for monitoring."
-  type        = string
-}
-
-variable "tags" {
-  description = "Tags to be applied to the AKS cluster."
-  type        = map(string)
-  default     = {}
-}
-
-variable "acr_id" {
-  description = "The ID of the Azure Container Registry to allow AKS to pull images from."
-  type        = string
+  default     = "1.30.5"
 }
 
 variable "appgw_subnet_id" {
