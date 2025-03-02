@@ -24,6 +24,7 @@ module "network" {
   }
 }
 
+# Secrets & Key Vault
 module "secrets" {
   source              = "./modules/secrets"
   name                = "kv-warp-one-${local.environment}"
@@ -35,6 +36,9 @@ module "secrets" {
   ssl_certificate_name = "appgw-ssl-cert"
   domain_name         = "princetonstrong.online"
   validity_in_months  = 12
+
+  secret_name  = var.secret_name
+  secret_value = var.secret_value 
 }
 
 # DNS Zone
@@ -67,7 +71,7 @@ module "public_ip" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# Application Gateway
+# Application Gateway (Uses SSL Certificate from Secrets)
 module "application_gateway" {
   source                    = "./modules/application_gateway"
   name                      = "appgw-warp-one-${local.environment}"
@@ -75,8 +79,8 @@ module "application_gateway" {
   resource_group_name       = module.resource_group.resource_group_name
   public_ip_address_id      = module.public_ip.public_ip_id
   subnet_id                 = module.network.appgw_subnet_id
-  ssl_certificate_name      = module.certificates.ssl_certificate_name
-  ssl_certificate_secret_id = module.certificates.certificate_secret_id
+  ssl_certificate_name      = module.secrets.ssl_certificate_name  # ✅ Uses Secrets Module
+  ssl_certificate_secret_id = module.secrets.certificate_secret_id
 }
 
 # Azure Container Registry (ACR)
@@ -87,7 +91,7 @@ module "acr" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# AKS Cluster
+# AKS Cluster (Depends on Secrets & Key Vault)
 module "aks" {
   source                     = "./modules/aks"
   name                       = "aks-warp-one-${local.environment}"
@@ -102,10 +106,5 @@ module "aks" {
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
   acr_id                     = module.acr.acr_id
 
-  depends_on = [module.application_gateway]
+  depends_on = [module.secrets]  
 }
-
-
-
-
-
