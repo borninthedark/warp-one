@@ -4,7 +4,7 @@ resource "random_id" "postfix" {
 }
 
 resource "random_id" "name" {
-  byte_length = 7
+  byte_length = 9
 }
 
 # Resource Group
@@ -93,7 +93,7 @@ module "application_gateway" {
 # Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
-  name                = "phoenix${random_id.postfix.hex}"
+  name                = "UnitedEarth"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
   tags = {
@@ -111,7 +111,7 @@ module "aks" {
   aks_subnet_id       = module.network.aks_subnet_id
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
-  dns_prefix          = "earth"
+  dns_prefix          = "nx"
   kubernetes_version  = "1.30"
   admin_group         = var.admin_group
 
