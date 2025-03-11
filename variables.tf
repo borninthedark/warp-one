@@ -1,13 +1,13 @@
 # Define locals for environment and location
 locals {
-  environment = terraform.workspace
+  environment = "bozeman"
   location    = var.location
 }
 
 variable "location" {
   description = "The Azure region where resources will be deployed."
   type        = string
-  default     = "East US" # Change to your preferred Azure region
+  default     = "West US" 
 }
 
 variable "client_id" {

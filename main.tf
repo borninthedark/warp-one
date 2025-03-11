@@ -40,7 +40,7 @@ module "network" {
 # Secrets & Key Vault
 module "keyvault" {
   source              = "./modules/keyvault"
-  name                = "kv-${local.environment}"
+  name                = "kv-nx-${local.environment}"
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
   object_id           = data.azurerm_client_config.current.object_id
@@ -93,7 +93,7 @@ module "application_gateway" {
 # Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
-  name                = "phoenix"
+  name                = "starbase${local.environment}"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
   tags = {
@@ -106,7 +106,7 @@ module "acr" {
 module "aks" {
   source              = "./modules/aks"
   tenant_id           = var.tenant_id
-  name                = "nx-${random_id.name.hex}-aks"
+  name                = "nx-phoenix-aks"
   acr_id              = module.acr.acr_id
   aks_subnet_id       = module.network.aks_subnet_id
   location            = module.resource_group.resource_group_location
@@ -121,6 +121,7 @@ module "aks" {
   agents_max_count                  = 3
   auto_scaling_enabled              = true
   oidc_issuer_enabled               = true
+  workload_identity_enabled         = true
   agents_max_pods                   = 100
   appgw_subnet_id                   = module.network.appgw_subnet_id
   rbac_aad                          = true

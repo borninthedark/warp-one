@@ -21,6 +21,12 @@ variable "oidc_issuer_enabled" {
   default     = true
 }
 
+variable "workload_identity_enabled" {
+  description = "Workload Identity Auth for the AKS Cluster."
+  type        = string
+  default     = true
+}
+
 variable "acr_id" {
   description = "Azure Container Registry ID to integrate with AKS."
   type        = string
