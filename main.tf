@@ -14,7 +14,7 @@ module "resource_group" {
   location = local.location
   tags = {
     environment = local.environment
-    project     = "phoenix"
+    project     = "nx"
   }
 }
 
@@ -33,7 +33,7 @@ module "network" {
   appgw_public_ip_name          = "appgw-public-ip-${local.environment}"
   tags = {
     environment = local.environment
-    project     = "phoenix"
+    project     = "nx"
   }
 }
 
@@ -58,10 +58,10 @@ module "dns" {
   resource_group_name = module.resource_group.resource_group_name
 }
 
-# Log Analytics Workspace
-module "log_analytics" {
-  source                = "./modules/log_analytics"
-  name                  = "log-${local.environment}"
+# Log Analytics / Monitoring
+module "monitoring" {
+  source                = "./modules/monitoring"
+  name                  = "section31-${local.environment}"
   location              = module.resource_group.resource_group_location
   resource_group_name   = module.resource_group.resource_group_name
   sku                   = "PerGB2018"
@@ -69,7 +69,7 @@ module "log_analytics" {
   enable_aks_monitoring = true
   tags = {
     environment = local.environment
-    project     = "phoenix"
+    project     = "nx"
   }
 }
 
@@ -81,24 +81,24 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   subnet_id            = module.network.appgw_subnet_id
   public_ip_address_id = module.network.appgw_public_ip_id
-  ssl_certificate_name = "appgw-warp-one-cert"
+  ssl_certificate_name = "appgw-ssl-cert"
   data                 = filebase64("certs/princetonstrong.online.pfx")
   data_password        = var.data_password
   tags = {
     environment = local.environment
-    project     = "phoenix"
+    project     = "nx"
   }
 }
 
 # Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
-  name                = "UnitedEarth"
+  name                = "phoenix"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
   tags = {
     environment = local.environment
-    project     = "phoenix"
+    project     = "nx"
   }
 }
 
@@ -106,7 +106,7 @@ module "acr" {
 module "aks" {
   source              = "./modules/aks"
   tenant_id           = var.tenant_id
-  name                = "aks-${random_id.name.hex}-earth"
+  name                = "nx-${random_id.name.hex}-aks"
   acr_id              = module.acr.acr_id
   aks_subnet_id       = module.network.aks_subnet_id
   location            = module.resource_group.resource_group_location
@@ -116,7 +116,7 @@ module "aks" {
   admin_group         = var.admin_group
 
   vm_size                           = "Standard_DS2_v2"
-  agents_pool_name                  = "humans"
+  agents_pool_name                  = "starfleet"
   agents_min_count                  = 1
   agents_max_count                  = 3
   auto_scaling_enabled              = true
@@ -126,7 +126,7 @@ module "aks" {
   rbac_aad                          = true
   role_based_access_control_enabled = true
   log_analytics_workspace_enabled   = true
-  log_analytics_workspace_id        = module.log_analytics.log_analytics_workspace_id
+  log_analytics_workspace_id        = module.monitoring.log_analytics_workspace_id
 
 }
 
