@@ -42,8 +42,9 @@ resource "azurerm_application_gateway" "appgw" {
   }
 
   ssl_certificate {
-    name                = var.ssl_certificate_name
-    key_vault_secret_id = var.ssl_certificate_secret_id
+    name     = var.ssl_certificate_name
+    data     = var.data
+    password = var.data_password
   }
 
   http_listener {
@@ -65,5 +66,4 @@ resource "azurerm_application_gateway" "appgw" {
 
   tags = var.tags
 
-  depends_on = [var.ssl_certificate_secret_id] 
 }

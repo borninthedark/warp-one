@@ -1,6 +1,6 @@
 terraform {
   backend "remote" {
-    organization = "Defiant-Emissary"
+    organization = "DefiantEmissary"
 
     workspaces {
       name = "warp-one"

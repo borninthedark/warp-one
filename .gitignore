@@ -27,6 +27,7 @@ Thumbs.db
 # Certificates/secrets
 certs/
 secrets/
+
 *.pem
 *.pfx
 *.key

@@ -39,13 +39,3 @@ variable "validity_in_months" {
   default     = 12
 }
 
-variable "secret_name" {
-  description = "The name of the secret to store in Key Vault."
-  type        = string
-}
-
-variable "secret_value" {
-  description = "The value of the secret to store in Key Vault."
-  type        = string
-  sensitive   = true
-}

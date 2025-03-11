@@ -10,17 +10,6 @@ variable "location" {
   default     = "East US" # Change to your preferred Azure region
 }
 
-variable "secret_name" {
-  description = "The name of the secret to store in Key Vault."
-  type        = string
-}
-
-variable "secret_value" {
-  description = "The value of the secret to store in Key Vault."
-  type        = string
-  sensitive   = true
-}
-
 variable "client_id" {
   description = "The Client ID (Application ID) of the Service Principal."
   type        = string
@@ -33,6 +22,11 @@ variable "client_secret" {
   sensitive   = true
 }
 
+variable "data_password" {
+  description = "The password for the SSL certificate."
+  type        = string
+}
+
 variable "tenant_id" {
   description = "The Azure Tenant ID."
   type        = string
@@ -43,3 +37,7 @@ variable "subscription_id" {
   type        = string
 }
 
+variable "admin_group" {
+  description = "Admin Group for cluster access."
+  type        = list(any)
+}

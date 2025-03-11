@@ -1,6 +1,24 @@
+# Define locals for environment and location
+locals {
+  environment = terraform.workspace
+  location    = var.location
+}
+
 variable "name" {
   description = "The name of the AKS cluster."
   type        = string
+}
+
+variable "auto_scaling_enabled" {
+  description = "Auto Scaling for the AKS Cluster."
+  type        = string
+  default     = true
+}
+
+variable "oidc_issuer_enabled" {
+  description = "OIDC for the AKS Cluster."
+  type        = string
+  default     = true
 }
 
 variable "acr_id" {
@@ -23,28 +41,15 @@ variable "dns_prefix" {
   type        = string
 }
 
+variable "tenant_id" {
+  description = "The Azure Tenant ID."
+  type        = string
+}
+
 variable "kubernetes_version" {
   description = "The Kubernetes version for AKS."
   type        = string
   default     = "1.30"
-}
-
-variable "automatic_channel_upgrade" {
-  description = "The AKS upgrade channel."
-  type        = string
-  default     = "patch"
-}
-
-variable "agents_availability_zones" {
-  description = "List of availability zones for the AKS agent pool."
-  type        = list(string)
-  default     = ["1", "2"]
-}
-
-variable "agents_count" {
-  description = "Number of nodes in the default node pool."
-  type        = number
-  default     = null
 }
 
 variable "agents_max_count" {
@@ -77,34 +82,10 @@ variable "agents_type" {
   default     = "VirtualMachineScaleSets"
 }
 
-variable "enable_auto_scaling" {
-  description = "Enable autoscaling in AKS."
-  type        = bool
-  default     = true
-}
-
 variable "enable_host_encryption" {
   description = "Enable host encryption on AKS nodes."
   type        = bool
   default     = true
-}
-
-variable "green_field_application_gateway_for_ingress" {
-  description = "Application Gateway details for Greenfield deployment."
-  type = object({
-    name        = string
-    subnet_cidr = string
-  })
-  default = null
-}
-
-variable "brown_field_application_gateway_for_ingress" {
-  description = "Application Gateway details for Brownfield deployment."
-  type = object({
-    id        = string
-    subnet_id = string
-  })
-  default = null
 }
 
 variable "create_role_assignments_for_application_gateway" {
@@ -123,18 +104,6 @@ variable "log_analytics_workspace_enabled" {
   description = "Enable Log Analytics Workspace."
   type        = bool
   default     = false
-}
-
-variable "net_profile_dns_service_ip" {
-  description = "The DNS service IP for the cluster."
-  type        = string
-  default     = "10.0.0.10"
-}
-
-variable "net_profile_service_cidr" {
-  description = "The service CIDR block for AKS networking."
-  type        = string
-  default     = "10.0.0.0/16"
 }
 
 variable "network_plugin" {
@@ -185,7 +154,7 @@ variable "sku_tier" {
   default     = "Standard"
 }
 
-variable "vnet_subnet_id" {
+variable "aks_subnet_id" {
   description = "The VNet subnet ID for AKS."
   type        = string
 }
@@ -196,6 +165,11 @@ variable "vm_size" {
   default     = "Standard_DS2_v2"
 }
 
+variable "admin_group" {
+  description = "Admin Group for cluster access."
+  type        = list(any)
+}
+
 variable "log_analytics_workspace_id" {
   description = "The ID of the Log Analytics Workspace for AKS logging."
   type        = string
@@ -204,12 +178,6 @@ variable "log_analytics_workspace_id" {
 
 variable "appgw_subnet_id" {
   description = "Subnet ID where the Application Gateway resides."
-  type        = string
-  default     = null
-}
-
-variable "appgw_public_ip_id" {
-  description = "Public IP address resource ID for the new or existing Application Gateway."
   type        = string
   default     = null
 }

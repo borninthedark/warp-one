@@ -1,8 +1,21 @@
+# Create Chaos
+resource "random_id" "postfix" {
+  byte_length = 7
+}
+
+resource "random_id" "name" {
+  byte_length = 7
+}
+
 # Resource Group
 module "resource_group" {
   source   = "./modules/resource_group"
   name     = "rg-${local.environment}"
   location = local.location
+  tags = {
+    environment = local.environment
+    project     = "phoenix"
+  }
 }
 
 # Networking
@@ -11,18 +24,22 @@ module "network" {
   location                      = module.resource_group.resource_group_location
   resource_group_name           = module.resource_group.resource_group_name
   vnet_name                     = "vnet-${local.environment}"
-  vnet_address_space            = ["10.0.0.0/16"]
+  vnet_address_space            = ["172.17.1.0/24"]
   aks_subnet_name               = "aks-subnet"
-  aks_subnet_address_prefixes   = ["10.0.1.0/24"]
+  aks_subnet_address_prefixes   = ["172.17.1.0/27"]
   appgw_subnet_name             = "appgw-subnet"
-  appgw_subnet_address_prefixes = ["10.0.2.0/24"]
+  appgw_subnet_address_prefixes = ["172.17.1.32/27"]
   nsg_name                      = "nsg-${local.environment}"
   appgw_public_ip_name          = "appgw-public-ip-${local.environment}"
+  tags = {
+    environment = local.environment
+    project     = "phoenix"
+  }
 }
 
 # Secrets & Key Vault
-module "secrets_management" {
-  source              = "./modules/secrets_management"
+module "keyvault" {
+  source              = "./modules/keyvault"
   name                = "kv-${local.environment}"
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
@@ -32,9 +49,6 @@ module "secrets_management" {
   ssl_certificate_name = "appgw-ssl-cert"
   domain_name          = "princetonstrong.online"
   validity_in_months   = 12
-
-  secret_name  = var.secret_name
-  secret_value = var.secret_value
 }
 
 # DNS Zone
@@ -61,14 +75,15 @@ module "log_analytics" {
 
 # Application Gateway 
 module "application_gateway" {
-  source                    = "./modules/application_gateway"
-  name                      = "appgw-warp-one-${local.environment}"
-  location                  = module.resource_group.resource_group_location
-  resource_group_name       = module.resource_group.resource_group_name
-  subnet_id                 = module.network.appgw_subnet_id
-  public_ip_address_id      = module.network.appgw_public_ip_id
-  ssl_certificate_name      = module.secrets_management.ssl_certificate_name
-  ssl_certificate_secret_id = module.secrets_management.certificate_secret_id
+  source               = "./modules/application_gateway"
+  name                 = "appgw-warp-one-${local.environment}"
+  location             = module.resource_group.resource_group_location
+  resource_group_name  = module.resource_group.resource_group_name
+  subnet_id            = module.network.appgw_subnet_id
+  public_ip_address_id = module.network.appgw_public_ip_id
+  ssl_certificate_name = "appgw-warp-one-cert"
+  data                 = filebase64("certs/princetonstrong.online.pfx")
+  data_password        = var.data_password
   tags = {
     environment = local.environment
     project     = "phoenix"
@@ -78,34 +93,40 @@ module "application_gateway" {
 # Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
-  name                = "bozeman"
+  name                = "phoenix${random_id.postfix.hex}"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
+  tags = {
+    environment = local.environment
+    project     = "phoenix"
+  }
 }
 
 # AKS
 module "aks" {
-  source                     = "./modules/aks"
-  name                       = "aks-warp-one"
-  location                   = module.resource_group.resource_group_location
-  resource_group_name        = module.resource_group.resource_group_name
-  dns_prefix                 = "akswarp"
-  kubernetes_version         = "1.30"
-  
-  vm_size                    = "Standard_DS2_v2"
-  agents_pool_name           = "starbase-one
-  agents_min_count           = 1
-  agents_max_count           = 2
-  agents_max_pods            = 100
-  enable_auto_scaling        = true
+  source              = "./modules/aks"
+  tenant_id           = var.tenant_id
+  name                = "aks-${random_id.name.hex}-earth"
+  acr_id              = module.acr.acr_id
+  aks_subnet_id       = module.network.aks_subnet_id
+  location            = module.resource_group.resource_group_location
+  resource_group_name = module.resource_group.resource_group_name
+  dns_prefix          = "earth"
+  kubernetes_version  = "1.30"
+  admin_group         = var.admin_group
 
-  appgw_subnet_id            = module.network.appgw_subnet_id
-  appgw_public_ip_id         = module.network.appgw_public_ip_id
-
-
-  rbac_aad                   = true
+  vm_size                           = "Standard_DS2_v2"
+  agents_pool_name                  = "humans"
+  agents_min_count                  = 1
+  agents_max_count                  = 3
+  auto_scaling_enabled              = true
+  oidc_issuer_enabled               = true
+  agents_max_pods                   = 100
+  appgw_subnet_id                   = module.network.appgw_subnet_id
+  rbac_aad                          = true
   role_based_access_control_enabled = true
-  log_analytics_workspace_enabled = false
-  log_analytics_workspace_id = null
+  log_analytics_workspace_enabled   = true
+  log_analytics_workspace_id        = module.log_analytics.log_analytics_workspace_id
+
 }
 
