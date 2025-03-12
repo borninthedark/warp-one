@@ -38,7 +38,7 @@ module "keyvault" {
   tenant_id            = data.azurerm_client_config.current.tenant_id
   ssl_certificate_name = "appgw-ssl-cert"
   password             = var.password
-  contents             = filebase64("certs/princetonstrong.online.pfx")
+  contents             = filebase64(certs/princetonstrong.online.pfx)
   domain_name          = "princetonstrong.online"
   validity_in_months   = 12
 }
