@@ -67,14 +67,7 @@ resource "azurerm_user_assigned_identity" "mi_keyvault_access" {
 # Assign "Key Vault Certificates Reader" Role to the Managed Identity
 resource "azurerm_role_assignment" "kv_cert_reader" {
   scope                = azurerm_key_vault.keyvault.id
-  role_definition_name = "Key Vault Certificates Reader"
-  principal_id         = azurerm_user_assigned_identity.mi_keyvault_access.principal_id
-}
-
-# Grant Managed Identity Access to Key Vault Secrets (Optional)
-resource "azurerm_role_assignment" "kv_secrets_reader" {
-  scope                = azurerm_key_vault.keyvault.id
-  role_definition_name = "Key Vault Secrets Reader"
+  role_definition_name = "Key Vault Reader"
   principal_id         = azurerm_user_assigned_identity.mi_keyvault_access.principal_id
 }
 
@@ -144,7 +137,7 @@ resource "azurerm_key_vault_certificate" "nx" {
   key_vault_id = azurerm_key_vault.keyvault.id
 
   certificate {
-    contents = "${path.module}/certs/pso_pk8.pem"
+    filebase64("${path.module}/certs/princetonstrong.online.pfx")
     password = var.password
   }
 }
