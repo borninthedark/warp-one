@@ -38,6 +38,6 @@ variable "subscription_id" {
 }
 
 variable "admin_group" {
-  description = "Admin Group for cluster access."
+  description = "Admin Group for AKS cluster access."
   type        = list(any)
 }
