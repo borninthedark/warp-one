@@ -76,7 +76,7 @@ resource "azurerm_federated_identity_credential" "sp_identity" {
   name                = "sp-keyvault-access"
   resource_group_name = var.resource_group_name
   issuer              = "https://sts.windows.net/${var.tenant_id}/"
-  subject             = "appid=df7d79fc-2099-4df5-9822-bfc960a6fca4" 
+  subject             = "appid=df7d79fc-2099-4df5-9822-bfc960a6fca4"
   audience            = ["api://AzureADTokenExchange"]
   parent_id           = azurerm_user_assigned_identity.mi_keyvault_access.id
 }
@@ -137,7 +137,7 @@ resource "azurerm_key_vault_certificate" "nx" {
   key_vault_id = azurerm_key_vault.keyvault.id
 
   certificate {
-    filebase64("${path.module}/certs/princetonstrong.online.pfx")
+    contents = filebase64("${path.module}/certs/princetonstrong.online.pfx")
     password = var.password
   }
 }
