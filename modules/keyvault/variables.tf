@@ -44,3 +44,8 @@ variable "ssl_certificate_name" {
   description = "The name of the SSL certificate used by Application Gateway & stored in AzKV."
   type        = string
 }
+
+variable "contents" {
+  description = "The contents of the certificate."
+  type        = string
+}

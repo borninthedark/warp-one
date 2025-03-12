@@ -27,6 +27,11 @@ variable "password" {
   type        = string
 }
 
+variable "contents" {
+  description = "The contents of the certificate."
+  type        = string
+}
+
 variable "tenant_id" {
   description = "The Azure Tenant ID."
   type        = string
