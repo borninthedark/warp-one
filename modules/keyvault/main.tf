@@ -137,7 +137,7 @@ resource "azurerm_key_vault_certificate" "nx" {
   key_vault_id = azurerm_key_vault.keyvault.id
 
   certificate {
-    contents = filebase64("${path.module}/certs/princetonstrong.online.pfx")
+    contents = filebase64("certs/princetonstrong.online.pfx")
     password = var.password
   }
 }
