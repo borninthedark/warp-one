@@ -1,12 +1,3 @@
-# Create Chaos
-resource "random_id" "postfix" {
-  byte_length = 7
-}
-
-resource "random_id" "name" {
-  byte_length = 9
-}
-
 # Resource Group
 module "resource_group" {
   source   = "./modules/resource_group"
