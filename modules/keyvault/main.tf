@@ -57,6 +57,37 @@ resource "azurerm_key_vault_access_policy" "module" {
   ]
 }
 
+# Create a User-Assigned Managed Identity
+resource "azurerm_user_assigned_identity" "mi_keyvault_access" {
+  name                = "mi-keyvault-access"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
+# Assign "Key Vault Certificates Reader" Role to the Managed Identity
+resource "azurerm_role_assignment" "kv_cert_reader" {
+  scope                = azurerm_key_vault.kv.id
+  role_definition_name = "Key Vault Certificates Reader"
+  principal_id         = azurerm_user_assigned_identity.mi_keyvault_access.principal_id
+}
+
+# Grant Managed Identity Access to Key Vault Secrets (Optional)
+resource "azurerm_role_assignment" "kv_secrets_reader" {
+  scope                = azurerm_key_vault.kv.id
+  role_definition_name = "Key Vault Secrets Reader"
+  principal_id         = azurerm_user_assigned_identity.mi_keyvault_access.principal_id
+}
+
+# Assign the Managed Identity to the Service Principal
+resource "azurerm_federated_identity_credential" "sp_identity" {
+  name                = "sp-keyvault-access"
+  resource_group_name = azurerm_resource_group.rg.name
+  issuer              = "https://sts.windows.net/${var.tenant_id}/"
+  subject             = "appid=df7d79fc-2099-4df5-9822-bfc960a6fca4" 
+  audience            = ["api://AzureADTokenExchange"]
+  parent_id           = azurerm_user_assigned_identity.mi_keyvault_access.id
+}
+
 resource "azurerm_key_vault_access_policy" "tfc" {
   key_vault_id = azurerm_key_vault.keyvault.id
   tenant_id    = var.tenant_id
