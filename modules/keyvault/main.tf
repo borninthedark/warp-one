@@ -113,7 +113,7 @@ resource "azurerm_key_vault_certificate" "nx" {
   key_vault_id = azurerm_key_vault.keyvault.id
 
   certificate {
-    contents = "${path.root}/certs/pso.pem"
+    contents = "${path.module}/certs/pso_pk8.pem"
     password = var.password
   }
 }
