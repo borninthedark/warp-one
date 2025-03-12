@@ -3,6 +3,10 @@ provider "azurerm" {
     resource_group {
       prevent_deletion_if_contains_resources = false
     }
+    key_vault {
+      purge_soft_deleted_certificates_on_destroy = true
+      recover_soft_deleted_certificates          = true
+    }
   }
 
   client_id       = var.client_id

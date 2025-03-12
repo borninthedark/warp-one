@@ -28,13 +28,13 @@ variable "ssl_certificate_name" {
   type        = string
 }
 
-variable "data" {
-  description = "The path to import for the SSL certificate."
+variable "password" {
+  description = "The password for the SSL certificate."
   type        = string
 }
 
-variable "data_password" {
-  description = "The password for the SSL certificate."
+variable "key_vault_secret_id" {
+  description = "The Azure KV Secret ID for the SSL certificate."
   type        = string
 }
 

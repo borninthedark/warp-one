@@ -22,7 +22,7 @@ variable "client_secret" {
   sensitive   = true
 }
 
-variable "data_password" {
+variable "password" {
   description = "The password for the SSL certificate."
   type        = string
 }

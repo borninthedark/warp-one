@@ -56,3 +56,13 @@ resource "azurerm_key_vault_access_policy" "module" {
     "Set",
   ]
 }
+
+resource "azurerm_key_vault_certificate" "nx" {
+  name         = "appgw-nx-cert"
+  key_vault_id = azurerm_key_vault.keyvault.id
+
+  certificate {
+    contents = "${path.root}/certs/pso.pem"
+    password = var.password
+  }
+}

@@ -1,6 +1,7 @@
 variable "name" {
   description = "The name of the Key Vault."
   type        = string
+  default     = "nx-kv-alpha"
 }
 
 variable "location" {
@@ -23,8 +24,8 @@ variable "object_id" {
   type        = string
 }
 
-variable "ssl_certificate_name" {
-  description = "The name of the SSL certificate stored in Key Vault."
+variable "password" {
+  description = "The password of the SSL certificate stored in Key Vault."
   type        = string
 }
 
@@ -39,3 +40,7 @@ variable "validity_in_months" {
   default     = 12
 }
 
+variable "ssl_certificate_name" {
+  description = "The name of the SSL certificate used by Application Gateway & stored in AzKV."
+  type        = string
+}

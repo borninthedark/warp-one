@@ -39,14 +39,14 @@ module "network" {
 
 # Secrets & Key Vault
 module "keyvault" {
-  source              = "./modules/keyvault"
-  name                = "kv-nx-${local.environment}"
-  resource_group_name = module.resource_group.resource_group_name
-  location            = module.resource_group.resource_group_location
-  object_id           = data.azurerm_client_config.current.object_id
-  tenant_id           = data.azurerm_client_config.current.tenant_id
-
+  source               = "./modules/keyvault"
+  name                 = "nx-kv-alpha"
+  resource_group_name  = module.resource_group.resource_group_name
+  location             = module.resource_group.resource_group_location
+  object_id            = data.azurerm_client_config.current.object_id
+  tenant_id            = data.azurerm_client_config.current.tenant_id
   ssl_certificate_name = "appgw-ssl-cert"
+  password             = var.password
   domain_name          = "princetonstrong.online"
   validity_in_months   = 12
 }
@@ -81,9 +81,9 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   subnet_id            = module.network.appgw_subnet_id
   public_ip_address_id = module.network.appgw_public_ip_id
-  ssl_certificate_name = "appgw-ssl-cert"
-  data                 = filebase64("certs/princetonstrong.online.pfx")
-  data_password        = var.data_password
+  ssl_certificate_name = "appgw-nx-cert"
+  key_vault_secret_id  = module.keyvault.id
+  password             = var.password
   tags = {
     environment = local.environment
     project     = "nx"
