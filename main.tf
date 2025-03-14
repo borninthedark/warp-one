@@ -85,7 +85,7 @@ module "application_gateway" {
 # Azure Container Registry (ACR)
 module "acr" {
   source              = "./modules/acr"
-  name                = "starbase${local.environment}"
+  name                = "starbase"
   location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
   tags = {
@@ -108,7 +108,7 @@ module "aks" {
   admin_group         = var.admin_group
 
   vm_size                           = "Standard_DS2_v2"
-  agents_pool_name                  = "human"
+  agents_pool_name                  = "starfleet"
   agents_min_count                  = 1
   agents_max_count                  = 3
   auto_scaling_enabled              = true

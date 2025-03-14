@@ -1,6 +1,6 @@
 # Define locals for environment and location
 locals {
-  environment = "nx-project"
+  environment = "worf"
   location    = var.location
 }
 
