@@ -30,14 +30,14 @@ module "network" {
 
 # Secrets & Key Vault
 module "keyvault" {
-  source               = "./modules/keyvault"
-  name                 = "nx-kv-alpha"
-  resource_group_name  = module.resource_group.resource_group_name
-  location             = module.resource_group.resource_group_location
-  object_id            = data.azurerm_client_config.current.object_id
-  tenant_id            = data.azurerm_client_config.current.tenant_id
-  domain_name          = "princetonstrong.online"
-  validity_in_months   = 12
+  source              = "./modules/keyvault"
+  name                = "nx-kv-alpha"
+  resource_group_name = module.resource_group.resource_group_name
+  location            = module.resource_group.resource_group_location
+  object_id           = data.azurerm_client_config.current.object_id
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  domain_name         = "princetonstrong.online"
+  validity_in_months  = 12
 }
 
 # DNS Zone
