@@ -24,6 +24,11 @@ variable "object_id" {
   type        = string
 }
 
+variable "password" {
+  description = "The password of the SSL certificate stored in Key Vault."
+  type        = string
+}
+
 variable "domain_name" {
   description = "The domain name for the SSL certificate."
   type        = string
