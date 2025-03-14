@@ -135,9 +135,7 @@ resource "azurerm_key_vault_access_policy" "tfc" {
 resource "azurerm_key_vault_certificate" "nx" {
   name         = "nx-alpha"
   key_vault_id = azurerm_key_vault.keyvault.id
-  depends_on = [
-    azurerm_key_vault.keyvault
-  ]
+
 
   certificate_policy {
     issuer_parameters {

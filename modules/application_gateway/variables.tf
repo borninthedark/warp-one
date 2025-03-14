@@ -23,16 +23,6 @@ variable "public_ip_address_id" {
   type        = string
 }
 
-variable "ssl_certificate_name" {
-  description = "The name of the SSL certificate used by Application Gateway."
-  type        = string
-}
-
-variable "key_vault_secret_id" {
-  description = "The Azure KV Secret ID for the SSL certificate."
-  type        = string
-}
-
 variable "tags" {
   description = "Tags to be applied to the Application Gateway."
   type        = map(string)

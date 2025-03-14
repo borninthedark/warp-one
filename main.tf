@@ -31,7 +31,7 @@ module "network" {
 # Secrets & Key Vault
 module "keyvault" {
   source              = "./modules/keyvault"
-  name                = "nx-kv-alpha"
+  name                = "kv-nx-alpha"
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
   object_id           = data.azurerm_client_config.current.object_id
@@ -70,11 +70,6 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   subnet_id            = module.network.appgw_subnet_id
   public_ip_address_id = module.network.appgw_public_ip_id
-  ssl_certificate_name = "nx-alpha"
-  key_vault_secret_id  = module.keyvault.secret_id
-  depends_on = [
-    module.keyvault
-  ]
 
   tags = {
     environment = local.environment
