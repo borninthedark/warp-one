@@ -22,11 +22,6 @@ variable "client_secret" {
   sensitive   = true
 }
 
-variable "password" {
-  description = "The password for the SSL certificate."
-  type        = string
-}
-
 variable "tenant_id" {
   description = "The Azure Tenant ID."
   type        = string
