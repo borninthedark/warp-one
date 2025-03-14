@@ -36,9 +36,6 @@ module "keyvault" {
   location             = module.resource_group.resource_group_location
   object_id            = data.azurerm_client_config.current.object_id
   tenant_id            = data.azurerm_client_config.current.tenant_id
-  ssl_certificate_name = "appgw-ssl-cert"
-  password             = var.password
-  contents             = filebase64(certs/princetonstrong.online.pfx)
   domain_name          = "princetonstrong.online"
   validity_in_months   = 12
 }
@@ -73,9 +70,12 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   subnet_id            = module.network.appgw_subnet_id
   public_ip_address_id = module.network.appgw_public_ip_id
-  ssl_certificate_name = "appgw-nx-cert"
-  key_vault_secret_id  = module.keyvault.id
-  password             = var.password
+  ssl_certificate_name = "nx-alpha"
+  key_vault_secret_id  = module.keyvault.secret_id
+  depends_on = [
+    module.keyvault
+  ]
+
   tags = {
     environment = local.environment
     project     = "nx"
@@ -108,7 +108,7 @@ module "aks" {
   admin_group         = var.admin_group
 
   vm_size                           = "Standard_DS2_v2"
-  agents_pool_name                  = "starfleet"
+  agents_pool_name                  = "human"
   agents_min_count                  = 1
   agents_max_count                  = 3
   auto_scaling_enabled              = true

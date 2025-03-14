@@ -44,7 +44,6 @@ resource "azurerm_application_gateway" "appgw" {
   ssl_certificate {
     name                = var.ssl_certificate_name
     key_vault_secret_id = var.key_vault_secret_id
-    password            = var.password
   }
 
   http_listener {

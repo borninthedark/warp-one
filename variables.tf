@@ -1,6 +1,6 @@
 # Define locals for environment and location
 locals {
-  environment = "bozeman"
+  environment = "nx-project"
   location    = var.location
 }
 
