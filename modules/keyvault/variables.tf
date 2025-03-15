@@ -11,7 +11,7 @@ variable "location" {
 
 variable "trusted_ip" {
   description = "The trusted ip addresses alowed to connect to and access resouces."
-  type        = list(string)
+  type        = set(string)
 }
 
 variable "resource_group_name" {
@@ -22,6 +22,11 @@ variable "resource_group_name" {
 variable "tenant_id" {
   description = "The Azure Tenant ID."
   type        = string
+}
+
+variable "virtual_network_subnet_ids" {
+  description = "The Azure AKS Subnet ID."
+  type        = list(string)
 }
 
 variable "object_id" {

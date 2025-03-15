@@ -12,7 +12,7 @@ module "resource_group" {
 # Networking
 module "network" {
   source                        = "./modules/network"
-  trusted_ip                    = var.trusted_ip
+  trusted_ip                    = tolist([var.trusted_ip]) 
   location                      = module.resource_group.resource_group_location
   resource_group_name           = module.resource_group.resource_group_name
   vnet_name                     = "vnet-${local.environment}"
@@ -33,11 +33,12 @@ module "network" {
 module "keyvault" {
   source              = "./modules/keyvault"
   name                = "kv-nx-alpha"
+  virtual_network_subnet_ids   = toset([module.network.aks_subnet_id]) 
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
   object_id           = data.azurerm_client_config.current.object_id
   tenant_id           = data.azurerm_client_config.current.tenant_id
-  trusted_ip          = var.trusted_ip
+  trusted_ip          = toset([var.trusted_ip]) 
   domain_name         = "princetonstrong.online"
   validity_in_months  = 12
   password            = var.password
@@ -98,6 +99,7 @@ module "acr" {
 module "aks" {
   source              = "./modules/aks"
   tenant_id           = var.tenant_id
+  trusted_ip          = var.trusted_ip
   name                = "nx-phoenix-aks"
   acr_id              = module.acr.acr_id
   aks_subnet_id       = module.network.aks_subnet_id

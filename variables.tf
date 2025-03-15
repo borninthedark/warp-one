@@ -48,7 +48,12 @@ variable "password" {
   type        = string
 }
 
+variable "aks_subnet_id" {
+  description = "The aks_subnet_id."
+  type        = string
+}
+
 variable "trusted_ip" {
   description = "The trusted ip addresses alowed to connect to and access resouces."
-  type        = list(string)
+  type        = string
 }

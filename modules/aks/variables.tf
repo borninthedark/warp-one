@@ -58,6 +58,11 @@ variable "kubernetes_version" {
   default     = "1.30"
 }
 
+variable "trusted_ip" {
+  description = "The trusted ip addresses alowed to connect to and access resouces."
+  type        = string
+}
+
 variable "agents_max_count" {
   description = "Maximum number of nodes for autoscaling."
   type        = number

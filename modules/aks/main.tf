@@ -7,6 +7,18 @@ resource "azurerm_kubernetes_cluster" "aks" {
   oidc_issuer_enabled       = var.oidc_issuer_enabled
   workload_identity_enabled = var.workload_identity_enabled
 
+
+  api_server_access_profile {
+    authorized_ip_ranges = [
+      var.trusted_ip
+    ]
+  }
+
+  network_profile {
+    network_plugin = "kubenet"
+    network_policy = "calico"
+  }
+
   # Node pool
   default_node_pool {
     name                 = var.agents_pool_name
@@ -34,10 +46,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     azure_rbac_enabled     = true
     tenant_id              = var.tenant_id
     admin_group_object_ids = var.admin_group
-  }
-
-  network_profile {
-    network_plugin = "kubenet"
   }
 
   tags = {
