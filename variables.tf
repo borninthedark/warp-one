@@ -1,6 +1,6 @@
 # Define locals for environment and location
 locals {
-  environment = "enterprise"
+  environment = "bozeman"
   location    = var.location
 }
 

@@ -1,2 +1,2 @@
-# Generic Gravimetric Field Displacement Manifold Design Schematics Using Terraform in Azure
+# Generic Gravimetric Field Displacement Manifold Design Schematics Using Terraform & Azure
 
