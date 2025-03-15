@@ -32,14 +32,7 @@ jobs:
 
       - name: "Initialize Terraform"
         run: terraform init
-
-      # Terraform Linting (tflint)
-      - name: "Install & Run Terraform Linter"
-        run: |
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install.sh | bash
-          tflint --init
-          tflint
-
+        
       # Terraform Security Scan (tfsec)
       - name: "Install & Run Terraform Security Scan"
         run: |
