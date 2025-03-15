@@ -9,11 +9,6 @@ variable "location" {
   type        = string
 }
 
-variable "trusted_ip" {
-  description = "The trusted ip addresses alowed to connect to and access resouces."
-  type        = set(string)
-}
-
 variable "resource_group_name" {
   description = "The name of the resource group."
   type        = string

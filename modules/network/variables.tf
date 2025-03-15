@@ -18,11 +18,6 @@ variable "vnet_address_space" {
   type        = list(string)
 }
 
-variable "trusted_ip" {
-  description = "The trusted ip addresses alowed to connect to and access resouces."
-  type        = list(string)
-}
-
 variable "aks_subnet_name" {
   description = "The name of the AKS subnet."
   type        = string
