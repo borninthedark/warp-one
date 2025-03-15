@@ -1,0 +1,72 @@
+name: "Terraform Deploy"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: "TFC"
+    runs-on: ubuntu-latest
+
+    env:
+      TF_CLOUD_ORG: ${{ secrets.TF_CLOUD_ORG }}
+      TF_WORKSPACE: ${{ secrets.TF_WORKSPACE }}
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "Setup Terraform"
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: "Initialize Terraform"
+        run: terraform init
+
+      # Terraform Linting (tflint)
+      - name: "Install & Run Terraform Linter"
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install.sh | bash
+          tflint --init
+          tflint
+
+      # Terraform Security Scan (tfsec)
+      - name: "Install & Run Terraform Security Scan"
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+          tfsec .
+
+      # Terraform Format Check
+      - name: "Check Terraform Formatting"
+        run: terraform fmt -check -recursive
+
+      # Terraform Validate
+      - name: "Validate Terraform Configuration"
+        run: terraform validate
+
+      # Setup Go for Terraform Unit Tests (Terratest)
+      - name: "Setup Go"
+        uses: actions/setup-go@v4
+        with:
+          go-version: '^1.20'
+
+      # Run Terraform Unit Tests (Terratest)
+      - name: "Run Terratest"
+        run: |
+          go test -v ./test/
+
+      # Terraform Plan
+      - name: "Terraform Plan"
+        run: terraform plan -var-file="terraform.tfvars"
+
+      # Terraform Apply (Only on `main` branch)
+      - name: "Terraform Apply"
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"
