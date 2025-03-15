@@ -1,4 +1,4 @@
-name: "Terraform Deploy"
+name: "HCP Terraform Deploy"
 
 on:
   push:
@@ -10,12 +10,12 @@ on:
 
 jobs:
   terraform:
-    name: "TFC"
+    name: "HCP Terraform Deploy"
     runs-on: ubuntu-latest
 
     env:
       TF_CLOUD_ORG: ${{ secrets.TF_CLOUD_ORG }}
-      TF_WORKSPACE: ${{ secrets.TF_WORKSPACE }}
+     # TF_WORKSPACE: ${{ secrets.TF_WORKSPACE }}
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
     steps:
