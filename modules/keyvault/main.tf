@@ -131,13 +131,3 @@ resource "azurerm_key_vault_access_policy" "tfc" {
     "Set",
   ]
 }
-
-resource "azurerm_key_vault_certificate" "nx" {
-  name         = "nx-alpha"
-  key_vault_id = azurerm_key_vault.keyvault.id
-
-  certificate {
-    contents = filebase64("pso.pfx")
-    password = var.password
-  }
-}

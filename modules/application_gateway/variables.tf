@@ -23,8 +23,18 @@ variable "public_ip_address_id" {
   type        = string
 }
 
+variable "ssl_certificate_name" {
+  description = "The cert name for the Application Gateway."
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to be applied to the Application Gateway."
   type        = map(string)
   default     = {}
+}
+
+variable "password" {
+  description = "The password of the SSL certificate stored in Key Vault."
+  type        = string
 }

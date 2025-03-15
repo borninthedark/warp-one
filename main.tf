@@ -38,6 +38,7 @@ module "keyvault" {
   tenant_id           = data.azurerm_client_config.current.tenant_id
   domain_name         = "princetonstrong.online"
   validity_in_months  = 12
+  password            = var.password
 }
 
 # DNS Zone
@@ -70,6 +71,8 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   subnet_id            = module.network.appgw_subnet_id
   public_ip_address_id = module.network.appgw_public_ip_id
+  password             = var.password
+  ssl_certificate_name = var.ssl_certificate_name
 
   tags = {
     environment = local.environment

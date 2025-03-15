@@ -1,6 +1,6 @@
 # Define locals for environment and location
 locals {
-  environment = "worf"
+  environment = "enterprise"
   location    = var.location
 }
 
@@ -8,6 +8,12 @@ variable "location" {
   description = "The Azure region where resources will be deployed."
   type        = string
   default     = "West US"
+}
+
+variable "ssl_certificate_name" {
+  description = "The cert name for the Application Gateway."
+  type        = string
+  default     = "nx-alpha"
 }
 
 variable "client_id" {
@@ -35,4 +41,9 @@ variable "subscription_id" {
 variable "admin_group" {
   description = "Admin Group for AKS cluster access."
   type        = list(any)
+}
+
+variable "password" {
+  description = "The password of the SSL certificate stored in Key Vault."
+  type        = string
 }
