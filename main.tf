@@ -12,6 +12,7 @@ module "resource_group" {
 # Networking
 module "network" {
   source                        = "./modules/network"
+  trusted_ip                    = var.trusted_ip
   location                      = module.resource_group.resource_group_location
   resource_group_name           = module.resource_group.resource_group_name
   vnet_name                     = "vnet-${local.environment}"
@@ -36,6 +37,7 @@ module "keyvault" {
   location            = module.resource_group.resource_group_location
   object_id           = data.azurerm_client_config.current.object_id
   tenant_id           = data.azurerm_client_config.current.tenant_id
+  trusted_ip          = var.trusted_ip
   domain_name         = "princetonstrong.online"
   validity_in_months  = 12
   password            = var.password

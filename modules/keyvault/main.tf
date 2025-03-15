@@ -4,6 +4,13 @@ resource "azurerm_key_vault" "keyvault" {
   resource_group_name = var.resource_group_name
   sku_name            = "standard"
   tenant_id           = var.tenant_id
+
+  network_acls {
+    default_action             = "Deny"                         # Block all access by default
+    bypass                     = "AzureServices"                # Allow Azure services (like AKS, VM, App Gateway)
+    virtual_network_subnet_ids = [azurerm_subnet.aks_subnet.id] # Restrict to AKS subnet
+    ip_rules                   = var.trusted_ip                 # Replace with trusted IPs
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "module" {

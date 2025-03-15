@@ -47,3 +47,8 @@ variable "password" {
   description = "The password of the SSL certificate stored in Key Vault."
   type        = string
 }
+
+variable "trusted_ip" {
+  description = "The trusted ip addresses alowed to connect to and access resouces."
+  type        = list(string)
+}
