@@ -9,7 +9,6 @@ resource "azurerm_key_vault" "keyvault" {
     default_action             = "Deny"                         # Block all access by default
     bypass                     = "AzureServices"                # Allow Azure services (like AKS, VM, App Gateway)
     virtual_network_subnet_ids = var.virtual_network_subnet_ids # Restrict to AKS subnet
-    ip_rules                   = ["146.70.202.0/24"]            # Replace with trusted IPs
   }
 }
 
