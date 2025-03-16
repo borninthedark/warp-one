@@ -13,7 +13,7 @@ resource "azurerm_key_vault" "keyvault" {
   }
 }
 
-resource "azurerm_key_vault_certificate" "nx {
+resource "azurerm_key_vault_certificate" "nx" {
   name         = "nx-cert"
   key_vault_id = azurerm_key_vault.keyvault.id
 
