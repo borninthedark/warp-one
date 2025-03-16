@@ -43,13 +43,3 @@ variable "admin_group" {
   type        = list(any)
 }
 
-variable "password" {
-  description = "The password of the SSL certificate stored in Key Vault."
-  type        = string
-}
-
-variable "aks_subnet_id" {
-  description = "The aks_subnet_id."
-  type        = string
-}
-
