@@ -39,9 +39,9 @@ jobs:
          # curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
          # tfsec .
 
-      # Terraform Format Check
-      # - name: "Check Terraform Formatting"
-      #  run: terraform fmt -check -recursive
+      # Terraform Format 
+      - name: "Terraform Formatting"
+        run: terraform fmt -recursive
 
       # Terraform Validate
       - name: "Validate Terraform Configuration"
