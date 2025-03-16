@@ -34,7 +34,7 @@ variable "tags" {
   default     = {}
 }
 
-variable "password" {
-  description = "The password of the SSL certificate stored in Key Vault."
+variable "key_vault_secret_id" {
+  description = "The key_vault_secret_id of the SSL certificate stored in Key Vault."
   type        = string
 }

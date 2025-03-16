@@ -43,8 +43,7 @@ resource "azurerm_application_gateway" "appgw" {
 
   ssl_certificate {
     name     = var.ssl_certificate_name
-    data     = filebase64("${path.module}/pso.pfx")
-    password = var.password
+    key_vault_secret_id     = var.key_vault_secret_id
   }
 
   http_listener {

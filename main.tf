@@ -72,7 +72,7 @@ module "application_gateway" {
   resource_group_name  = module.resource_group.resource_group_name
   subnet_id            = module.network.appgw_subnet_id
   public_ip_address_id = module.network.appgw_public_ip_id
-  password             = var.password
+  key_vault_secret_id = module.keyvault.key_vault_secret_id
   ssl_certificate_name = var.ssl_certificate_name
 
   tags = {
