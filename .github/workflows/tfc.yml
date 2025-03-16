@@ -60,9 +60,9 @@ jobs:
 
       # Terraform Plan
       - name: "Terraform Plan"
-        run: terraform plan -var-file="terraform.tfvars"
+        run: terraform plan 
 
       # Terraform Apply (Only on `main` branch)
       - name: "Terraform Apply"
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var-file="terraform.tfvars"
+        run: terraform apply -auto-approve 
