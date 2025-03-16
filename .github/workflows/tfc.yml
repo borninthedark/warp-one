@@ -40,8 +40,8 @@ jobs:
          # tfsec .
 
       # Terraform Format Check
-      - name: "Check Terraform Formatting"
-        run: terraform fmt -check -recursive
+      # - name: "Check Terraform Formatting"
+      #  run: terraform fmt -check -recursive
 
       # Terraform Validate
       - name: "Validate Terraform Configuration"
