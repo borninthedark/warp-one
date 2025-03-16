@@ -39,6 +39,7 @@ module "keyvault" {
   tenant_id                  = data.azurerm_client_config.current.tenant_id
   domain_name                = "princetonstrong.online"
   validity_in_months         = 12
+  depends_on = [module.network]
 }
 
 # DNS Zone

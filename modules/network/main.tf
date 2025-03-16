@@ -14,6 +14,7 @@ resource "azurerm_subnet" "aks_subnet" {
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = var.aks_subnet_address_prefixes
+  service_endpoints = ["Microsoft.KeyVault"]
 }
 
 # Subnet for Application Gateway (AGIC)
